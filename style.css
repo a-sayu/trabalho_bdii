@@ -15,7 +15,7 @@ body {
     align-items: center;
     background-color: #3D3F97;
     padding: 0px 20px;
-    height: 15vh;
+    height: 15dvh;
     min-height: 100px;
 }
 
@@ -50,7 +50,7 @@ body {
     position: absolute;
     right: 0;
     background-color: white;
-    width: 40vh;
+    width: 40dvh;
     min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     border-radius: 20px 0 20px 20px;
@@ -87,16 +87,20 @@ body {
     border-radius: 0 0 20px 20px;
 }
 
-main {
-    min-height: 85vh;
-}
+/* body */
 
-.blue {
+main {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 85dvh;
+}
+
+.blue {
     background-color: #3D3F97;
 }
+
+/* Login */
 
 .login-box {
     color: #282964;
@@ -104,10 +108,10 @@ main {
     padding: 2em;
     border-radius: 20px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    width: 30vh;
+    width: 30dvh;
     max-width: 400px;
-    height: 35vh;
-    margin-top: -15vh;
+    height: 35dvh;
+    margin-top: -15dvh;
 
     display: flex;
     flex-direction: column;
@@ -121,13 +125,14 @@ main {
 .login-box p {
     color: #9293D3;
     font-weight: bold;
-    font-size: 1.7em;
+    font-size: 1.5em;
+    max-height: 100px;
 }
 
 .google-box {
     background-color: #eee;
-    width: 15vh;
-    height: 9vh;
+    width: 15dvh;
+    height: 9dvh;
     border-radius: 20px;
     display: flex;
     justify-content: center;
@@ -155,15 +160,94 @@ main {
     cursor: pointer;
 }
 
+/* QR code */
+
+.qr-code-box {
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 20px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    width: 30dvh;
+    max-width: 400px;
+    height: 45dvh;
+    margin-top: -20dvh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+
+    gap: 2em;
+    
+}
+
+.qr-code-box p {
+    color: #9293D3;
+    font-weight: bold;
+    font-size: 1.7em;
+}
+
+.qr-code {
+    background-color: #fff;
+    width: 20dvh;
+    max-width: 200px;
+    max-height: 200px;
+    height: 20dvh;
+    min-height: 100px;
+    min-width: 100px;
+    border-radius: 20px;
+    border: solid 2px #aaa;
+}
+
+/* emitir certificado */
+.emitir-cert-box {
+    background-color: #fff;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    width: 50dvh;
+    height: 75dvh;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.emitir-cert-box p {
+    padding: 12px 8px;
+    border-bottom: 1px solid #3D3F97;
+}
+
+.emitir-cert-box p:first-child {
+    padding: 12px 12px 8px;
+}
+
+.emitir-cert-box p:last-child {
+    padding: 8px 12px 12px;
+    border-bottom: none;
+}
+
+/* Tela Inicial */
+
 .index {
     display: flex;
     gap: 20px;
     align-items: center;
 }
 
+.left {
+    max-width: 40dvh;
+}
+
+.left p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color:#3D3F97;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 .left, .right {
     flex: 1;
-    margin-top: -15vh;
+    margin-top: -15dvh;
     margin: 0 5%;
 }
 
@@ -172,13 +256,14 @@ main {
     padding: 12px;
     border-radius: 20px;
     color: #4A5660;
+    height: 40dvh;
 }
 
 .calendar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .calendar-header button {
@@ -211,4 +296,31 @@ main {
 
 .header {
     color: #ccc;
+}
+
+.calendar-week-container {
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    padding: 12px;
+    border-radius: 20px;
+    color: #4A5660;
+    height: 45.1dvh;
+}
+
+.week-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.event-block {
+    position: absolute;
+    height: 100%;
+    background-color: #9293D3;
+    color: white;
+    border-radius: 25px;
+    text-align: center;
+    font-size: 1.2em;
+    overflow: hidden;
 }
