@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const dropdown = document.querySelector(".dropdown");
   const button = dropdown.querySelector(".dropbtn");
 
-  button.addEventListener("click", () => {
+  button.addEventListener("click", (e) => {
+    e.stopPropagation();
     dropdown.classList.toggle("show");
   });
 

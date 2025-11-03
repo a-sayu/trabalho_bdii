@@ -50,7 +50,7 @@ body {
     position: absolute;
     right: 0;
     background-color: white;
-    width: 40dvh;
+    width: 40dvw;
     min-width: 150px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     border-radius: 20px 0 20px 20px;
@@ -94,6 +94,8 @@ main {
     justify-content: center;
     align-items: center;
     min-height: 85dvh;
+    gap: 20px;
+    align-items: center;
 }
 
 .blue {
@@ -108,7 +110,7 @@ main {
     padding: 2em;
     border-radius: 20px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    width: 30dvh;
+    width: 30dvw;
     max-width: 400px;
     height: 35dvh;
     margin-top: -15dvh;
@@ -131,7 +133,7 @@ main {
 
 .google-box {
     background-color: #eee;
-    width: 15dvh;
+    width: 15dvw;
     height: 9dvh;
     border-radius: 20px;
     display: flex;
@@ -167,7 +169,7 @@ main {
     padding: 2em;
     border-radius: 20px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    width: 30dvh;
+    width: 30dvw;
     max-width: 400px;
     height: 45dvh;
     margin-top: -20dvh;
@@ -190,10 +192,10 @@ main {
 
 .qr-code {
     background-color: #fff;
-    width: 20dvh;
+    width: 20dvw;
     max-width: 200px;
     max-height: 200px;
-    height: 20dvh;
+    height: 20dvw;
     min-height: 100px;
     min-width: 100px;
     border-radius: 20px;
@@ -204,7 +206,7 @@ main {
 .emitir-cert-box {
     background-color: #fff;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    width: 50dvh;
+    width: 70dvw;
     height: 75dvh;
     border-radius: 20px;
     align-items: center;
@@ -225,17 +227,16 @@ main {
     border-bottom: none;
 }
 
-/* Tela Inicial */
-
-.index {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
 
 .left {
-    max-width: 40dvh;
+    max-width: 30dvw;
 }
+
+.right {
+    max-width: 70dvw;
+}
+
+/* Tela Inicial */
 
 .left p {
     font-size: 1.2em;
@@ -257,6 +258,8 @@ main {
     border-radius: 20px;
     color: #4A5660;
     height: 40dvh;
+    min-width: 10dvw;
+    max-width: 40dvw;
 }
 
 .calendar-header {
@@ -280,6 +283,9 @@ main {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 5px;
+    min-height: 10dvh;
+    min-width: 10dvw;
+    max-width: 40dvw;
 }
 
 .day {
