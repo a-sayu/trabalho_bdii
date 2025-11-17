@@ -53,4 +53,29 @@
         padding: 20px; /* Espaçamento interno */
         position: relative; /* Para posicionar elementos internos, como a linha do tempo */
     }
+
+    @media (max-width: 1000px) {
+        .homepage-layout {
+            flex-direction: column;
+            height: auto;
+            padding: 20px;
+            
+            align-items: center; 
+        }
+
+        .left-panel {
+            flex: none;
+            width: 100%;
+            
+            max-width: 350px; 
+            
+            margin-bottom: 20px;
+        }
+
+        .right-panel {
+            width: 100%;
+            height: 600px;
+            min-height: 50vh;
+        }
+    }
 </style>

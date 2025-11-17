@@ -9,11 +9,18 @@ body {
   line-height: 1.6;
 }
 
+.logo img {
+  filter: brightness(0) invert(1);
+}
+
 .navbar {
   background-color: #3d3f97;
   padding: 0px 20px;
-  height: 15dvh;
-  min-height: 100px;
+  
+  height: 80px;
+  
+  display: flex;
+  align-items: center;
 }
 
 .navbar a,
@@ -34,19 +41,41 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
+}
+
+.nav-left {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .nav-left .logo {
-  font-size: 1.5em;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.logo img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
 }
 
 .nav-right {
   display: flex;
-  align-items: center;
-  gap: 15px;
+  align-items: center; 
+  height: 100%;        
+  gap: 20px;           
 }
 
 .dropdown {
+  height: 100%;        
+  display: flex;      
+  align-items: center; 
   position: relative;
 }
 
@@ -54,6 +83,9 @@ body {
   display: none;
   position: absolute;
   right: 0;
+  
+  top: 70%; 
+  
   background-color: white;
   width: 40dvw;
   min-width: 150px;
@@ -66,8 +98,25 @@ body {
   display: block;
 }
 
+.profile-link,
 .dropbtn {
-  display: inline-block;
+  display: flex;            
+  align-items: center;      
+  justify-content: center;  
+  height: 100%;             
+  padding: 0 10px;          
+  border: none;             
+  background: transparent;  
+  cursor: pointer;
+}
+
+.profile-img,
+.menu-img {
+  height: 35px;                     
+  width: auto;                      
+  object-fit: contain;              
+  filter: brightness(0) invert(1);  
+  display: block;                   
 }
 
 .dropdown a {
@@ -276,9 +325,14 @@ main {
   padding: 12px;
   border-radius: 20px;
   color: #4a5660;
-  height: 40dvh;
-  min-width: 10dvw;
-  max-width: 40dvw;
+
+  height: auto;        
+  display: flex;       
+  flex-direction: column;
+  
+  width: 100%;         
+  
+  padding-bottom: 20px; 
 }
 
 .calendar-header {
@@ -302,9 +356,7 @@ main {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
-  min-height: 10dvh;
-  min-width: 10dvw;
-  max-width: 40dvw;
+  width: 100%;
 }
 
 .day {
@@ -376,14 +428,12 @@ main {
 }
 
 .time-label {
-  height: 40px; /* Altura de cada bloco de hora */
+  height: 40px;            
   display: flex;
-  align-items: start;
-  justify-content: center;
+  align-items: center;     
+  justify-content: center; 
   font-size: 0.8rem;
   color: #888;
-  transform: translateY(-50%); /* Centraliza o texto na linha */
-  padding-top: 5px;
 }
 
 /* --- Grid dos Dias --- */
