@@ -86,7 +86,7 @@ body {
   display: none;
   position: absolute;
   right: 0;
-  top: 70%; /* Note: We previously discussed 100%, check if this needs update */
+  top: 70%;
   background-color: white;
   width: 40dvw;
   min-width: 150px;
@@ -145,11 +145,14 @@ body {
 /* =========================================
    Main Layout
    ========================================= */
+
 main {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 85dvh;
+  
+  min-height: calc(100dvh - 80px);
+  
   gap: 20px;
 }
 
@@ -294,7 +297,7 @@ main {
 
 .left {
   flex: 1;
-  max-width: 30dvw; /* Combined duplicates (last value wins) */
+  max-width: 30dvw;
 }
 
 .left p {
