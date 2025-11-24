@@ -6,6 +6,13 @@ create table Chapas(
     Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci
 );
 
+create table Pessoas(
+	UUID varchar(36) primary key,
+    Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
+    Email varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
+    Vinculo_UNESP varchar(50) not null COLLATE utf8mb4_0900_ai_ci
+);
+
 create table Eventos(
 	UUID varchar(36) primary key,
     Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
@@ -17,12 +24,7 @@ create table Eventos(
     constraint FK_UUID_responsavel_evento foreign key (Responsavel) references Pessoas(UUID)
 );
 
-create table Pessoas(
-	UUID varchar(36) primary key,
-    Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
-    Email varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
-    Vinculo_UNESP varchar(50) not null COLLATE utf8mb4_0900_ai_ci
-);
+
 
 create table Inscritos(
 	UUID_pessoa varchar(36) not null,

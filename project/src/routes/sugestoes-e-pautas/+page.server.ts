@@ -10,26 +10,27 @@ interface Pauta {
     descricao: string;
 }
 
-interface Sugestao {
-    UUID: number;
-    nome: string;
-    descricao: string;
-}
-
 export async function load() {
     try {
         // Call the stored procedure
         // Use 'CALL procedure_name(?, ?)' syntax for stored procedures
-        const sugestoes = await query<Sugestao[]>("CALL selectSugestoes()");
-        const pautas = await query<Pauta[]>("CALL selectPautas()");
+        const sugestoesRaw = await query<any[][]>("CALL selectSugestoes()");
+        const pautasRaw = await query<any[][]>("CALL selectPautas()");
+        const sugestoes = sugestoesRaw[0] || [];
+        const pautas = pautasRaw[0] || [];
+        let sugestos_e_pautas = [...sugestoes, ...pautas];
+        console.log("Dados do Banco:", sugestos_e_pautas);
+        sugestos_e_pautas.sort((a, b) => {
+             return (a.nome || '').localeCompare(b.nome || ''); 
+        });
 
         return {
-            sugestoes: sugestoes,
+            sugestos_e_pautas: JSON.parse(JSON.stringify(sugestos_e_pautas)),
         };
-    } catch (error) {
+    } catch (e) {
         // Handle error appropriately
-        console.error("Erro ao carregar sugestoes: ", error);
-        throw new Error("Não foi possível carregar os dados das sugestoes.");
+        console.error("Erro ao carregar sugestoes: ", e);
+        throw error(500, 'Não foi possível carregar os dados das sugestoes e pautas.');
     }
 }
 

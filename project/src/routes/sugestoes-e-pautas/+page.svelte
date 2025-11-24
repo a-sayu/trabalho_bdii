@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     let novaMensagem = {
         titulo: "",
         tipo: "",
@@ -6,6 +6,9 @@
         pessoa: "",
         descricao: "",
     };
+
+    export let data;
+    const mensagens = data.sugestos_e_pautas || [];
 </script>
 
 <svelte:head>
@@ -16,9 +19,19 @@
     <div class="left">
         <div class="card">
             <h3>Pautas Recentes</h3>
-            <div class="empty-msg">
-                <p>Nenhuma pauta ou sugestão para exibir.</p>
-            </div>
+            {#if mensagens.length > 0}
+                {#each mensagens as mensagem (mensagem.UUID)}
+                    <div>
+                        <p>{mensagem.Nome}</p>
+                        <p>{mensagem.Pessoa}</p>
+                        <button>Ver Mais</button>
+                    </div>
+                {/each}
+            {:else}
+                <div class="empty-state">
+                    <p>Nenhum mensagem para exibir.</p>
+                </div>
+            {/if}
         </div>
     </div>
 
