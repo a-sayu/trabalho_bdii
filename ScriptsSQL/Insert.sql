@@ -56,9 +56,9 @@ begin
     insert into Disciplinas values(UUID_disciplina, Nome_disciplina, UUID_professor);
 end $$
 
-create procedure insertEvento(in UUID_evento varchar(36), in Nome_evento varchar(50), in Data_local datetime, in Maximo int unsigned)
+create procedure insertEvento(in UUID_evento varchar(36), in Nome_evento varchar(50), in Data_local datetime, in Maximo int unsigned, in Responsavel varchar(36), in Descricao varchar(500))
 begin
-    insert into Eventos values(UUID_evento, Nome_evento, Data_local, false, Maximo);
+    insert into Eventos values(UUID_evento, Nome_evento, Data_local, false, Maximo, Responsavel, Descricao);
 end $$
 
 create procedure insertInscritoNome(in Nome_pessoa varchar(50), in Nome_evento varchar(50))
