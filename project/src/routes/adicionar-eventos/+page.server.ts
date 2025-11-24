@@ -6,9 +6,11 @@ export const actions: Actions = {
     default: async ({ request }) => {
         const data = await request.formData();
 
-        const titulo = data.get("titulo") as string;
+        const Nome_evento = data.get("nome_evento") as string;
         const dataStr = data.get("data") as string;
         const horario = data.get("horario") as string;
+        const Responsavel = data.get("responsavel") as string;
+        const Descricao = data.get("descricao") as string;
 
         // 1. Extração de 'maximo' e conversão para número
         const maximoData = data.get("maximo");
@@ -23,7 +25,7 @@ export const actions: Actions = {
 
         // 2. Validação completa (Verifica se é número, se é > 0 e se os strings existem)
         if (
-            !titulo ||
+            !Nome_evento ||
             !dataStr ||
             !horario ||
             isNaN(Maximo_participantes) ||
@@ -36,7 +38,7 @@ export const actions: Actions = {
 
             return fail(400, {
                 error: "Título, data, horário e Máximo de Participantes (número positivo) são obrigatórios.",
-                titulo,
+                Nome_evento,
             });
         }
 
@@ -54,26 +56,28 @@ export const actions: Actions = {
             console.error(`[EVENTO] Erro na conversão de data: ${dataStr}`, e);
             return fail(400, {
                 error: "Formato de data inválido.",
-                titulo,
+                Nome_evento,
             });
         }
         const Data_local_datetime = `${dataISO} ${horario}:00`;
 
-        // Parâmetros na ORDEM exata da SP: (UUID_evento, Nome_evento, Data_local, Maximo)
+        // Parâmetros na ORDEM exata da SP: (UUID_evento, Nome_evento, Data_local, Maximo, Responsavel, Descricao )
         const spParams = [
             UUID_evento,
-            titulo, // Nome_evento
+            Nome_evento, // Nome_evento
             Data_local_datetime, // Data_local
             Maximo_participantes, // Maximo
+            Responsavel,
+            Descricao
         ];
 
         try {
             // Chamada à Stored Procedure
-            await query("CALL insertevento(?,?,?,?)", spParams);
+            await query("CALL insertevento(?,?,?,?,?,?)", spParams);
 
             // Log de sucesso
             console.log(
-                `✅ Evento "${titulo}" (UUID: ${UUID_evento.slice(
+                `✅ Evento "${Nome_evento}" (UUID: ${UUID_evento.slice(
                     0,
                     8
                 )}...) adicionado com sucesso.`
@@ -89,7 +93,7 @@ export const actions: Actions = {
 
             return fail(500, {
                 error: "Erro no servidor ao salvar o evento. Verifique o console do servidor para detalhes do DB.",
-                titulo,
+                Nome_evento,
             });
         }
     },

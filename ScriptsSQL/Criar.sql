@@ -10,13 +10,17 @@ create table Pessoas(
 	UUID varchar(36) primary key,
     Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
     Email varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
-    Vinculo_UNESP varchar(50) not null COLLATE utf8mb4_0900_ai_ci
+    Vinculo_UNESP varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
+    GitHub varchar(70),
+    LinkedIn varchar(70),
+    Biografia varchar(500)
 );
 
 create table Eventos(
 	UUID varchar(36) primary key,
     Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
     Data_local datetime not null,
+    Duracao int unsigned,
     Autorizado boolean not null,
     Maximo int unsigned,
     Responsavel varchar(36),

@@ -4,7 +4,7 @@
     let currentDate = new Date();
 
     let evento = {
-        titulo: "",
+        nome_evento: "",
         data: "",
         horario: "",
         localizacao: "",
@@ -53,9 +53,9 @@
                         <span class="label-floating">Nome do Evento</span>
                         <input
                             type="text"
-                            id="titulo"
-                            name="titulo"
-                            bind:value={evento.titulo}
+                            id="nome_evento"
+                            name="nome_evento"
+                            bind:value={evento.nome_evento}
                             placeholder="Nome do Evento*"
                             required
                         />

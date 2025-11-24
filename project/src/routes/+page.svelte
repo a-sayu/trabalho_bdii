@@ -4,19 +4,20 @@
 
     export let data;
 
-    // Estado compartilhado: Data atual
-    let currentDate = new Date();
+    let now = new Date(); // clock
+    let viewDate = new Date(); // navigation
     const interval = setInterval(() => {
-        currentDate = new Date();
+        now = new Date();
     }, 60000);
 
     const eventos = data.eventos;
     $: eventosAgora = eventos.filter((evento) => {
         const eventDate = new Date(evento.Data_local);
         const isSameTime =
-            eventDate.getFullYear() === currentDate.getFullYear() &&
-            eventDate.getMonth() === currentDate.getMonth() &&
-            eventDate.getDate() === currentDate.getDate()
+            eventDate.getFullYear() === now.getFullYear() &&
+            eventDate.getMonth() === now.getMonth() &&
+            eventDate.getDate() === now.getDate() &&
+            eventDate.getHours() == now.getHours()
 
         return isSameTime;
     });
@@ -42,11 +43,11 @@
         {:else}
             <h2 class="current-event-title">Nenhum Evento Acontecendo Agora</h2>
         {/if}
-        <CalendarMonth bind:currentDate />
+        <CalendarMonth bind:currentDate={viewDate} />
     </div>
 
     <div class="right-panel">
-        <CalendarWeek {currentDate} />
+        <CalendarWeek currentDate={viewDate} />
     </div>
 </main>
 

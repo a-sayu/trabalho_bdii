@@ -43,8 +43,8 @@
     // 3. Explicitly type the parameter 'day' as a number
     function selectDay(day: number) {
         selectedDay = day;
-        const selectedDate = new Date(year, month, day);
-        const formattedDate = selectedDate.toISOString().split("T")[0];
+        currentDate = new Date(year, month, day);
+        const formattedDate = currentDate.toISOString().split("T")[0];
         onSelect?.(formattedDate);
     }
 
