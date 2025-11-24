@@ -11,7 +11,10 @@ create table Eventos(
     Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
     Data_local datetime not null,
     Autorizado boolean not null,
-    Maximo int unsigned
+    Maximo int unsigned,
+    Responsavel varchar(36),
+    Descricao varchar(500),
+    constraint FK_UUID_responsavel_evento foreign key (Responsavel) references Pessoas(UUID)
 );
 
 create table Pessoas(
