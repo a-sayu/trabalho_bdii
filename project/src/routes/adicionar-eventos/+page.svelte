@@ -6,27 +6,31 @@
     // Dados do formulário
     let evento = {
         titulo: "",
-        data: "",
+        data: "", // Formato YYYY-MM-DD
         horario: "",
         localizacao: "",
         responsavel: "",
         descricao: "",
+        maximo: "", // O Svelte mantém como string aqui
     };
 
-    function handleSubmit() {
-        console.log("Dados do evento:", evento);
-        alert(`Evento criado: ${evento.titulo}`);
-    }
-
+    // Função para formatar a data para exibição (DD/MM/YYYY)
     function formatToBR(dateString: string) {
         if (!dateString) return "";
-        const [year, month, day] = dateString.split("-");
-        return `${day}/${month}/${year}`;
+        // O valor real da data (evento.data) deve estar no formato ISO (YYYY-MM-DD)
+        const parts = dateString.split("-");
+        if (parts.length === 3) {
+             const [year, month, day] = parts;
+             return `${day}/${month}/${year}`;
+        }
+        return dateString; // Retorna o que estava se não for YYYY-MM-DD
     }
 
+    // Variável reativa para mostrar a data no formato BR, mas o valor de evento.data é ISO
     $: displayedDate = formatToBR(evento.data);
 
     function handleDateSelect(date: string) {
+        // Recebe a data no formato ISO e atualiza o estado
         evento.data = date;
     }
 </script>
@@ -37,19 +41,21 @@
 
 <main class="split-layout">
     <div class="left">
+        <!-- O componente CalendarMonth deve emitir a data no formato YYYY-MM-DD -->
         <CalendarMonth bind:currentDate onSelect={handleDateSelect} />
     </div>
 
     <div class="right">
         <div class="form-box">
             <h2>Novo Evento</h2>
-            <form on:submit|preventDefault={handleSubmit}>
+            <form method="POST">
                 <div class="form-row">
                     <div class="form-group-label-inside flex-grow">
                         <span class="label-floating">Nome do Evento</span>
                         <input
                             type="text"
                             id="titulo"
+                            name="titulo"
                             bind:value={evento.titulo}
                             placeholder="Nome do Evento*"
                             required
@@ -62,8 +68,9 @@
                         <input
                             type="text"
                             id="data"
+                            name="data"
                             bind:value={displayedDate}
-                            placeholder="Data da Prova"
+                            placeholder="Data do Evento"
                             required
                             readonly
                         />
@@ -74,6 +81,7 @@
                         <input
                             type="time"
                             id="horario"
+                            name="horario" 
                             bind:value={evento.horario}
                             required
                         />
@@ -84,6 +92,7 @@
                     <input
                         type="text"
                         id="localizacao"
+                        name="localizacao" 
                         bind:value={evento.localizacao}
                         placeholder="Local do Evento"
                     />
@@ -94,8 +103,21 @@
                     <input
                         type="text"
                         id="responsavel"
+                        name="responsavel"
                         bind:value={evento.responsavel}
                         placeholder="Pessoa Responsável"
+                    />
+                </div>
+                
+                <div class="form-group-label-inside flex-grow">
+                    <span class="label-floating">Capacidade Máxima</span>
+                    <input
+                        type="number"
+                        id="maximo"
+                        name="maximo" 
+                        bind:value={evento.maximo}
+                        placeholder="Nº Máximo de Participantes"
+                        required
                     />
                 </div>
 
@@ -103,6 +125,7 @@
                     <span class="label-floating">Conteúdo</span>
                     <textarea
                         id="evento"
+                        name="descricao" 
                         bind:value={evento.descricao}
                         rows="4"
                         placeholder="Descrição do Evento"
