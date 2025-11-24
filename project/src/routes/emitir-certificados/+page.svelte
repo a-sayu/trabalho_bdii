@@ -1,6 +1,6 @@
 <script lang="ts">
-    export let data;
-    const certificados = data.certificados || [];
+    const { data } = $props();
+    const certificados = $state(data.certificados || []);
 </script>
 
 <svelte:head>

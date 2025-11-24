@@ -1,13 +1,14 @@
 import { SvelteKitAuth } from "@auth/sveltekit";
 import Google from "@auth/core/providers/google";
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, AUTH_SECRET } from "$env/static/private";
+import {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    AUTH_SECRET,
+} from "$env/static/private";
 import { redirect, type Handle } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 
-
-const ALLOWED_EMAILS = [
-    "cacic.fct@gmail.com",
-];
+const ALLOWED_EMAILS = ["cacic.fct@gmail.com"];
 
 const ADMIN_EMAILS = [
     "abigail.s.nakashima@unesp.br",
@@ -24,14 +25,14 @@ const ADMIN_ROUTES = [
     "/gerenciar-pessoas",
     "/log-page",
     "/registrar-presenca",
-]
+];
 
 const PROTECTED_ROUTES = [
     "/adicionar-eventos",
     "/adicionar-provas",
     "/emitir-certificado",
     "/gerar-qrcode",
-]
+];
 
 const { handle: authHandle } = SvelteKitAuth({
     providers: [
@@ -42,9 +43,9 @@ const { handle: authHandle } = SvelteKitAuth({
                 params: {
                     prompt: "consent",
                     access_type: "offline",
-                    response_type: "code"
-                }
-            }
+                    response_type: "code",
+                },
+            },
         }),
     ],
     secret: AUTH_SECRET,
@@ -52,7 +53,7 @@ const { handle: authHandle } = SvelteKitAuth({
     callbacks: {
         async signIn({ profile }) {
             const email = profile?.email || "";
-            if (email.endsWith("@unesp.br")|| ALLOWED_EMAILS.includes(email)) {
+            if (email.endsWith("@unesp.br") || ALLOWED_EMAILS.includes(email)) {
                 return true;
             }
             return false;
@@ -68,31 +69,37 @@ const { handle: authHandle } = SvelteKitAuth({
                 session.user.role = token.role as string;
             }
             return session;
-        }
-    }
+        },
+    },
 });
 
-const authorizationHandle: Handle = async ({ event, resolve} ) => {
+const authorizationHandle: Handle = async ({ event, resolve }) => {
     const session = await event.locals.auth();
     const pathname = event.url.pathname;
 
-    const isRouteAdmin = ADMIN_ROUTES.some(route=> pathname.startsWith(route));
-    const isRouteProtected = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
+    const isRouteAdmin = ADMIN_ROUTES.some((route) =>
+        pathname.startsWith(route)
+    );
+    const isRouteProtected = PROTECTED_ROUTES.some((route) =>
+        pathname.startsWith(route)
+    );
 
-    if (!session) {
+    if (isRouteAdmin) {
+        if (!session) throw redirect(303, "/login");
+        if (session.user?.role !== "admin") throw redirect(303, "/");
+    }
+
+    if (isRouteProtected) {
+        if (!session) throw redirect(303, "/login");
+    }
+
+    if (pathname === "/login" && session) {
+        throw redirect(303, "/profile");
+    } else if (pathname === "/profile" && !session) {
         throw redirect(303, "/login");
-    } else {
-        if (isRouteAdmin) {
-            if (session.user?.role !== "admin") {
-                throw redirect(303, "/");
-            }
-        }
-    
-        if (isRouteProtected) {
-        }
     }
 
     return resolve(event);
-}
+};
 
 export const handle = sequence(authHandle, authorizationHandle);
