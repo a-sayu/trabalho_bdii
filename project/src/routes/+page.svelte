@@ -16,8 +16,7 @@
         const isSameTime =
             eventDate.getFullYear() === currentDate.getFullYear() &&
             eventDate.getMonth() === currentDate.getMonth() &&
-            eventDate.getDate() === currentDate.getDate() &&
-            eventDate.getHours() === currentDate.getHours();
+            eventDate.getDate() === currentDate.getDate()
 
         return isSameTime;
     });

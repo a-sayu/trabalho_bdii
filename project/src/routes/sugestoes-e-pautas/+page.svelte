@@ -1,15 +1,11 @@
 <script>
     let novaMensagem = {
+        titulo: "",
         tipo: "",
         data: "",
         pessoa: "",
         descricao: "",
     };
-
-    function handleSubmit() {
-        console.log("Dados da mensagem:", novaMensagem);
-        alert(`Mensagem do tipo ${novaMensagem.tipo} foi criada!`);
-    }
 </script>
 
 <svelte:head>
@@ -29,11 +25,25 @@
     <div class="right">
         <div>
             <h3>Deseja Enviar uma Pauta ou Sugestão?</h3>
-            <form on:submit|preventDefault={handleSubmit}>
+            <form method="POST">
+                <div class="form-row">
+                    <div class="form-group-label-inside flex-grow">
+                        <span class="label-floating">Título</span>
+                        <input
+                            type="text"
+                            id="titulo"
+                            name="titulo"
+                            bind:value={novaMensagem.titulo}
+                            placeholder="Título da Pauta/Sugestão"
+                            required
+                        />
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="form-group-label-inside flex-grow">
                         <select
                             id="tipo"
+                            name="tipo"
                             bind:value={novaMensagem.tipo}
                             required
                         >
@@ -42,20 +52,8 @@
                             >
                             <option>Sugestão</option>
                             <option>Pauta</option>
-                            <option>Reclamação</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="form-group-label-inside flex-grow">
-                    <span class="label-floating">Data</span>
-                    <input
-                        type="date"
-                        id="data"
-                        bind:value={novaMensagem.data}
-                        placeholder="Data da Prova"
-                        required
-                    />
                 </div>
 
                 <div class="form-group-label-inside full-width">
@@ -63,9 +61,9 @@
                     <input
                         type="text"
                         id="responsavel"
+                        name="pessoa"
                         bind:value={novaMensagem.pessoa}
-                        placeholder="Pessoa Responsável*"
-                        required
+                        placeholder="Pessoa Responsável"
                     />
                 </div>
 
@@ -73,6 +71,7 @@
                     <span class="label-floating">Descrição</span>
                     <textarea
                         id="msg"
+                        name="descricao"
                         bind:value={novaMensagem.descricao}
                         rows="6"
                         placeholder="Escreva aqui sua sugestão, pauta ou reclamação para o CACiC"
