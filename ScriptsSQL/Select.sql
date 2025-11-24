@@ -46,4 +46,14 @@ begin
 	select * from logger order by Data_local desc;
 end $$
 
+create procedure selectPautas()
+begin
+	select * from Pautas;
+end $$
+
+create procedure selectSugestoes()
+begin
+	select * from Sugestoes;
+end $$
+	
 delimiter ;
