@@ -139,7 +139,7 @@
    Calendar (Week View)
    ------------ */
 
-    .event-block {
+    /* .event-block {
         position: absolute;
         height: 100%;
         background-color: #9293d3;
@@ -148,7 +148,7 @@
         text-align: center;
         font-size: 1.2em;
         overflow: hidden;
-    }
+    } */
 
     .week-view {
         display: flex;
