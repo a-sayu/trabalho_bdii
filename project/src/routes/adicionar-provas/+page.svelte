@@ -24,11 +24,6 @@
     function handleDateSelect(date: string) {
         prova.data = date;
     }
-
-    function handleSubmit() {
-        console.log("Dados da Prova:", prova);
-        alert("Prova agendada com sucesso!");
-    }
 </script>
 
 <svelte:head>
@@ -43,13 +38,14 @@
     <div class="right">
         <div class="form-box">
             <h2>Nova Prova</h2>
-            <form on:submit|preventDefault={handleSubmit}>
+            <form method="POST">
                 <div class="form-row">
                     <div class="form-group-label-inside flex-grow">
                         <span class="label-floating">Disciplina</span>
                         <input
                             type="text"
                             id="disciplina"
+                            name="disciplina"
                             bind:value={prova.disciplina}
                             placeholder="Nome da Disciplina"
                             required
@@ -60,6 +56,7 @@
                         <input
                             type="text"
                             id="prova"
+                            name="provaNumero"
                             bind:value={prova.provaNumero}
                             placeholder="P1"
                             required
@@ -73,6 +70,7 @@
                         <input
                             type="text"
                             id="data"
+                            name="data"
                             bind:value={displayedDate}
                             placeholder="Data da Prova"
                             required
@@ -84,6 +82,7 @@
                         <input
                             type="time"
                             id="horario"
+                            name="horario"
                             bind:value={prova.horario}
                             required
                         />
@@ -95,6 +94,7 @@
                     <input
                         type="text"
                         id="localizacao"
+                        name="localizacao"
                         bind:value={prova.localizacao}
                         placeholder="Local da Prova"
                     />
@@ -105,6 +105,7 @@
                     <input
                         type="text"
                         id="professor"
+                        name="professor"
                         bind:value={prova.professor}
                         placeholder="Professor"
                     />
@@ -114,6 +115,7 @@
                     <span class="label-floating">Conteúdo</span>
                     <textarea
                         id="conteudo"
+                        name="conteudo"
                         bind:value={prova.conteudo}
                         rows="4"
                         placeholder="Conteúdo da Prova"

@@ -3,15 +3,14 @@
 
     let currentDate = new Date();
 
-    // Dados do formulário
     let evento = {
         titulo: "",
-        data: "", // Formato YYYY-MM-DD
+        data: "",
         horario: "",
         localizacao: "",
         responsavel: "",
         descricao: "",
-        maximo: "", // O Svelte mantém como string aqui
+        maximo: "",
     };
 
     // Função para formatar a data para exibição (DD/MM/YYYY)
