@@ -8,32 +8,12 @@ import {
 import { redirect, type Handle } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 
-const ALLOWED_EMAILS = ["cacic.fct@gmail.com"];
-
-const ADMIN_EMAILS = [
-    "abigail.s.nakashima@unesp.br",
-    "miguel.moret@unesp.br",
-    "cristian.eidi@unesp.br",
-    "daniel.aa.padua@unesp.br",
-    "paulo.sc.lima@unesp.br",
-    "filipe.nava@unesp.br",
-    "arthur.koichi@unesp.br",
-    "cacic.fct@gmail.com",
-];
-
-const ADMIN_ROUTES = [
-    "/autorizar-evento",
-    "/gerenciar-pessoas",
-    "/log-page",
-    "/registrar-presenca",
-];
-
-const PROTECTED_ROUTES = [
-    "/adicionar-eventos",
-    "/adicionar-provas",
-    "/emitir-certificado",
-    "/gerar-qrcode",
-];
+import { 
+    ALLOWED_EMAILS, 
+    ADMIN_EMAILS, 
+    ADMIN_ROUTES, 
+    PROTECTED_ROUTES 
+} from "$lib/server/permissions";
 
 const { handle: authHandle } = SvelteKitAuth({
     providers: [
