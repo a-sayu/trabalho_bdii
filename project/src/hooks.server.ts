@@ -18,6 +18,7 @@ const ADMIN_EMAILS = [
     "paulo.sc.lima@unesp.br",
     "filipe.nava@unesp.br",
     "arthur.koichi@unesp.br",
+    "cacic.fct@gmail.com",
 ];
 
 const ADMIN_ROUTES = [
