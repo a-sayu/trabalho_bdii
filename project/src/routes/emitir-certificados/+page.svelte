@@ -1,3 +1,8 @@
+<script lang="ts">
+    export let data;
+    const certificados = data.certificados || [];
+</script>
+
 <svelte:head>
     <title>Emitir Certificados</title>
 </svelte:head>
@@ -5,9 +10,18 @@
 <main class="container">
     <div class="emitir-cert-box">
         <h2>Certificados Disponíveis</h2>
-        <div class="empty-state">
-            <p>Nenhum certificado para emitir.</p>
-        </div>
+        {#if certificados.length > 0}
+            {#each certificados as certificado (certificado.UUID)}
+                <div>
+                    <p>{certificado.Nome_evento}</p>
+                    <button>Emitir Certificado</button>
+                </div>
+            {/each}
+        {:else}
+            <div class="empty-state">
+                <p>Nenhum certificado para emitir.</p>
+            </div>
+        {/if}
     </div>
 </main>
 

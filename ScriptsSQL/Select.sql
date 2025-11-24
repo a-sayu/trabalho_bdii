@@ -1,4 +1,9 @@
 delimiter $$
+create procedure selectEventos()
+begin
+	select * from eventos where eventos.Autorizado = true order by Data_local desc;
+end $$
+
 create procedure selectEventosMes()
 begin
 	select * from eventos where MONTH(NOW()) = MONTH(eventos.Data_local) and eventos.Autorizado = true order by Data_local desc;
