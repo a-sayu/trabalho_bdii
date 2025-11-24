@@ -19,6 +19,9 @@ src/
 ---------db.ts
 ------index.ts
 ---routes/
+------about-page/
+---------+page.svelte
+---------+page.server.ts
 ------adicionar-eventos/
 ---------+page.svelte
 ---------+page.server.ts
@@ -32,6 +35,9 @@ src/
 ---------+page.svelte
 ---------+page.server.ts
 ------gerar-qrcode/
+---------+page.svelte
+---------+page.server.ts
+------gerenciar-pessoas/
 ---------+page.svelte
 ---------+page.server.ts
 ------log-page/
