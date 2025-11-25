@@ -42,20 +42,16 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-    editar: async ({ request }) => {
+    default: async ({ request }) => {
         const data = await request.formData();
         
         // Pegamos o UUID que está no input hidden
         const uuid = data.get("uuid") as string;
-        console.log("A")
 
         try {
-            console.log("A")
             await query("CALL updateEvento(?)", [uuid]);
-            console.log("A")
-            return { successEdit: true };
+            return { success: true };
         } catch (e) {
-            console.log("B")
             console.error("Erro ao editar:", e);
             return fail(500, { editarError: "Erro ao atualizar o evento." });
         }

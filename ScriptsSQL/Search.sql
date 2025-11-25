@@ -16,7 +16,7 @@ end $$
 
 create procedure selectEventosAprovar()
 begin
-	select Nome from eventos where eventos.Autorizado = false order by Data_local desc;
+	select Nome, UUID from eventos where eventos.Autorizado = false order by Data_local desc;
 end $$
 
 create procedure selectCertificados(in Nome_pessoa varchar(50))

@@ -1,25 +1,32 @@
 <script lang="ts">
-    import { enhance } from "$app/forms";
+    import { enhance } from '$app/forms';
+    import type { SubmitFunction } from './$types'; // specific type for enhance
+    import type { ActionData } from './$types';
     import { fade, fly } from "svelte/transition";
     import type { Evento } from "$lib/types";
-    import type { SubmitFunction } from "@sveltejs/kit";
-    const { data } = $props();
-    let eventos = $derived((data.eventos as Evento[]) || []);
 
+
+    let { data, form } = $props();
+    // const { data } = $props();
+    let eventos = $derived((data.eventos as Evento[]) || []);
     let eventoEmEdicao = $state<Evento | null>(null);
 
     function iniciarEdicao(evento: Evento) {
         eventoEmEdicao = { ...evento };
     }
-    function cancelarEdicao() {
+
+    function fecharModal() {
         eventoEmEdicao = null;
     }
 
-    const submitEditar: SubmitFunction = () => {
-        return async ({ result, update }) => {
-            await update();
-            if (result.type === "success") {
-                cancelarEdicao();
+    const submitAutorizacao: SubmitFunction = () => {
+        return async ({ update, result }) => {
+            // Wait for the server to process and the page to reload data
+            await update(); 
+            
+            // If successful, close the modal
+            if (result.type === 'success') {
+                fecharModal();
             }
         };
     };
@@ -32,34 +39,26 @@
 {#if eventoEmEdicao}
     <div class="modal-overlay" transition:fade={{ duration: 200 }}>
         <div class="modal-card" transition:fly={{ y: 50, duration: 300 }}>
+            
             <div class="header-edit">
-                <h3>Editar Evento</h3>
-                <button class="btn-close" onclick={cancelarEdicao}>✕</button>
+                <h3>Autorizar Evento</h3>
+                <button class="btn-close" onclick={fecharModal}>✕</button>
             </div>
-            <form method="POST" action="?/editar" use:enhance={submitEditar}>
-                <input type="hidden" name="uuid" value={eventoEmEdicao.UUID} />
-                <div class="form-row">
-                    <div class="form-group-label-inside flex-grow">
-                        <span class="label-floating">Nome</span>
-                        <input
-                            type="text"
-                            name="nome"
-                            bind:value={eventoEmEdicao.Nome}
-                            placeholder="Nome do Evento"
-                            required
-                        />
-                    </div>
-                </div>
 
-                <div class="form-btn-side">
-                    <button
-                        type="button"
-                        class="btn-cancel"
-                        onclick={cancelarEdicao}>Cancelar</button
-                    >
-                    <button type="submit" class="btn-primary">Autorizar</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <p>Tem certeza que deseja autorizar o evento:</p>
+                <h4>{eventoEmEdicao.Nome}?</h4>
+
+                <form method="POST" use:enhance={submitAutorizacao}>
+                    <input type="hidden" name="uuid" value={eventoEmEdicao.UUID} />
+                    
+                    <div class="action-buttons">
+                        <button type="button" class="btn-cancel" onclick={fecharModal}>Cancelar</button>
+                        <button type="submit" class="btn-primary">Confirmar Autorização</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 {/if}
@@ -86,6 +85,21 @@
 </main>
 
 <style>
+    /* I added a few styles for the modal content specifically */
+    .modal-body {
+        text-align: left;
+        padding: 10px 0;
+    }
+    .modal-body h4 {
+        margin: 10px 0 20px 0;
+        color: #333;
+    }
+    .action-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
     .container {
         padding: 40px;
         display: flex;
@@ -118,24 +132,6 @@
     .autorizar-box p:last-child {
         padding: 8px 12px 12px;
         border-bottom: none;
-    }
-
-    .form-group-label-inside {
-        position: relative;
-        margin-bottom: 20px;
-    }
-
-    .label-floating {
-        position: absolute;
-        top: 5px;
-        left: 15px;
-        color: #555;
-        font-size: 0.75rem;
-        pointer-events: none;
-        background: white;
-        padding: 0 5px;
-        transform: translateY(-15px);
-        z-index: 10;
     }
 
     h2 {
@@ -282,3 +278,4 @@
     }
 
 </style>
+
