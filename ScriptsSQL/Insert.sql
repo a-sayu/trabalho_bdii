@@ -56,9 +56,11 @@ begin
     insert into Disciplinas values(UUID_disciplina, Nome_disciplina, UUID_professor);
 end $$
 
-create procedure insertEvento(in UUID_evento varchar(36), in Nome_evento varchar(50), in Data_local datetime, in Maximo int unsigned, in Responsavel varchar(36), in Descricao varchar(500))
+create procedure insertEvento(in UUID_evento varchar(36), in Nome_evento varchar(50), in Data_local datetime, in Maximo int unsigned, in Responsavel varchar(50), in Descricao varchar(500))
 begin
-    insert into Eventos values(UUID_evento, Nome_evento, Data_local, false, Maximo, Responsavel, Descricao);
+	declare UUID_pessoa varchar(36);
+    select UUID into UUID_pessoa from pessoas where pessoas.Nome = Responsavel;
+    insert into Eventos values(UUID_evento, Nome_evento, Data_local, 0, false, Maximo, UUID_pessoa, Descricao);
 end $$
 
 create procedure insertInscritoNome(in Nome_pessoa varchar(50), in Nome_evento varchar(50))
@@ -95,14 +97,14 @@ begin
 	call insertMembroRA(RA_discente, Cargo, Nome_chapa);
 end $$
 
-create procedure insertPauta(in UUID_pauta varchar(36), in Nome varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
+create procedure insertPauta(in UUID_pauta varchar(36), in Titulo varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa varchar(36);
     select UUID into UUID_pessoa from pessoas where pessoas.Nome = Nome_pessoa;
     if Nome_pessoa = null then
-		insert into Pautas values(UUID_pauta, Nome, Descricao, null);
+		insert into Pautas values(UUID_pauta, Titulo, Descricao, null);
 	else
-		insert into Pautas values(UUID_pauta, Nome, Descricao, UUID_pessoa);
+		insert into Pautas values(UUID_pauta, Titulo, Descricao, UUID_pessoa);
     end if;
 end $$
 
@@ -113,26 +115,24 @@ begin
 	insert into Provas values(UUID_prova, UUID_disciplina, Data_local, Lugar, Tipo, Conteudo, false);
 end $$
 
-create procedure insertSugestao(in UUID_sugestao varchar(36), in Nome varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
+create procedure insertSugestao(in UUID_sugestao varchar(36), in Titulo varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa varchar(36);
     select UUID into UUID_pessoa from pessoas where pessoas.Nome = Nome_pessoa;
     if Nome_pessoa = null then
-		insert into Sugestoes values(UUID_sugestao, Nome, Descricao, null);
+		insert into Sugestoes values(UUID_sugestao, Titulo, Descricao, null);
 	else
-		insert into Sugestoes values(UUID_sugestao, Nome, Descricao, UUID_pessoa);
+		insert into Sugestoes values(UUID_sugestao, Titulo, Descricao, UUID_pessoa);
     end if;
 end $$
 
-create procedure insertVoto(in UUID_sugestao varchar(36), in Nome varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
+create procedure insertVoto(in Nome_pauta varchar(36), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa varchar(36);
+    declare UUID_pauta varchar(36);
     select UUID into UUID_pessoa from pessoas where pessoas.Nome = Nome_pessoa;
-    if Nome_pessoa = null then
-		insert into Sugestoes values(UUID_sugestao, Nome, Descricao, null);
-	else
-		insert into Sugestoes values(UUID_sugestao, Nome, Descricao, UUID_pessoa);
-    end if;
+    select UUID into UUID_pauta from Pautas where Pautas.Nome = Nome_pauta;
+    insert into Votos values(UUID_pessoa, UUID_pauta);
 end $$
 
 delimiter ;
