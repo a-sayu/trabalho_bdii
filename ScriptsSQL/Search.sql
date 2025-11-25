@@ -56,6 +56,11 @@ begin
 	select * from Sugestoes;
 end $$
 
+create procedure selectPessoas()
+begin
+	select * from Pessoas;
+end $$
+
 create procedure selectRAPessoa(in Nome_usuario varchar(50))
 begin
 	declare UUID_usuario varchar(36);
