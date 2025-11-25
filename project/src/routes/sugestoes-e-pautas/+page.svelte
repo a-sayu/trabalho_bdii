@@ -2,7 +2,6 @@
     let novaMensagem = {
         titulo: "",
         tipo: "",
-        data: "",
         pessoa: "",
         descricao: "",
     };
@@ -21,7 +20,7 @@
             <h3>Pautas Recentes</h3>
             {#if mensagens.length > 0}
                 {#each mensagens as mensagem (mensagem.UUID)}
-                    <div>
+                    <div class="item">
                         <p>{mensagem.Nome}</p>
                         <p>{mensagem.Pessoa}</p>
                         <button>Ver Mais</button>
@@ -127,6 +126,7 @@
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
         height: 100%;
         min-height: 400px;
+        overflow-y: auto;
     }
 
     h3 {
@@ -205,5 +205,32 @@
     textarea {
         min-height: 120px;
         resize: vertical;
+    }
+
+    .item > button {
+        background: transparent;
+        border: 1px solid #3d3f97;
+        color: #3d3f97;
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        right: 0;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .item > button:hover {
+        background: #3d3f97;
+        color: white;
+    }
+
+    .item {
+        display: flex;
+        justify-content: space-between; /* 2. Nome na esquerda, botão na direita */
+        align-items: center;
+        padding: 8px 16px;
+        border-bottom: 1px solid #e0e0e0;
     }
 </style>

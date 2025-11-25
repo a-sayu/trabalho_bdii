@@ -19,7 +19,7 @@ export const load: PageServerLoad = async () => {
         const sugestoes = sugestoesRaw[0] || [];
         const pautas = pautasRaw[0] || [];
         let sugestos_e_pautas = [...sugestoes, ...pautas];
-        console.log("Dados do Banco:", sugestos_e_pautas);
+        console.log("Pautas e Sugestoes:", sugestos_e_pautas);
         sugestos_e_pautas.sort((a, b) => {
             return (a.nome || "").localeCompare(b.nome || "");
         });
@@ -111,7 +111,7 @@ export const actions: Actions = {
             } catch (e) {
                 // Log de erro no DB. Usa JSON.stringify para capturar o sqlMessage.
                 console.error(
-                    "❌ Erro no DB ao adicionar pauta:",
+                    "Erro no DB ao adicionar pauta:",
                     JSON.stringify(e, null, 2)
                 );
 

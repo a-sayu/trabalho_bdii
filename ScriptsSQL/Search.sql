@@ -41,9 +41,10 @@ begin
 	select Nome from provas where provas.Autorizado = false order by Data_local desc;
 end $$
 
+delimiter $$
 create procedure selectLogs()
 begin
-	select * from logger order by Data_local desc;
+	select * from logger order by Data_local asc;
 end $$
 
 create procedure selectPautas()

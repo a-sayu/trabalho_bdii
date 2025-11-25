@@ -1,7 +1,6 @@
 import { query } from "$lib/server/db";
 import { error, fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import { randomUUID } from "node:crypto";
 
 interface Evento {
     UUID: string;

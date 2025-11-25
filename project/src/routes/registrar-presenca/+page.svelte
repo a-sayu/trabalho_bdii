@@ -44,21 +44,25 @@
     }
 
     .list-container {
+        flex: 1;
         width: 100%;
         overflow-y: auto; /* Permite rolar se tiver muitos eventos */
+        padding: 0;
     }
 
     .reg-pres-box {
         background: white;
-        padding: 30px;
+        padding: 20px;
         border-radius: 20px;
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-        width: 100%;
-        text-align: center;
+        height: 100%;
+        min-height: 400px;
     }
 
     h2 {
         color: #3d3f97;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
         margin-bottom: 20px;
     }
 
@@ -79,7 +83,6 @@
 
     .reg-pres-box p {
         padding: 12px 8px;
-        border-bottom: 1px solid #3d3f97;
     }
 
     .reg-pres-box p:first-child {
@@ -89,5 +92,32 @@
     .reg-pres-box p:last-child {
         padding: 8px 12px 12px;
         border-bottom: none;
+    }
+
+    button {
+        background: transparent;
+        border: 1px solid #3d3f97;
+        color: #3d3f97;
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        right: 0;
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    button:hover {
+        background: #3d3f97;
+        color: white;
+    }
+
+    .evento-item {
+        display: flex;
+        justify-content: space-between; /* 2. Nome na esquerda, botão na direita */
+        align-items: center;
+        padding: 8px 16px;
+        border-bottom: 1px solid #e0e0e0;
     }
 </style>

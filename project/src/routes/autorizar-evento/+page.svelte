@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { enhance } from '$app/forms';
-    import type { SubmitFunction } from './$types'; // specific type for enhance
-    import type { ActionData } from './$types';
+    import { enhance } from "$app/forms";
+    import type { SubmitFunction } from "./$types"; // specific type for enhance
+    import type { ActionData } from "./$types";
     import { fade, fly } from "svelte/transition";
     import type { Evento } from "$lib/types";
-
 
     let { data, form } = $props();
     // const { data } = $props();
@@ -22,10 +21,10 @@
     const submitAutorizacao: SubmitFunction = () => {
         return async ({ update, result }) => {
             // Wait for the server to process and the page to reload data
-            await update(); 
-            
+            await update();
+
             // If successful, close the modal
-            if (result.type === 'success') {
+            if (result.type === "success") {
                 fecharModal();
             }
         };
@@ -39,7 +38,6 @@
 {#if eventoEmEdicao}
     <div class="modal-overlay" transition:fade={{ duration: 200 }}>
         <div class="modal-card" transition:fly={{ y: 50, duration: 300 }}>
-            
             <div class="header-edit">
                 <h3>Autorizar Evento</h3>
                 <button class="btn-close" onclick={fecharModal}>✕</button>
@@ -50,15 +48,24 @@
                 <h4>{eventoEmEdicao.Nome}?</h4>
 
                 <form method="POST" use:enhance={submitAutorizacao}>
-                    <input type="hidden" name="uuid" value={eventoEmEdicao.UUID} />
-                    
+                    <input
+                        type="hidden"
+                        name="uuid"
+                        value={eventoEmEdicao.UUID}
+                    />
+
                     <div class="action-buttons">
-                        <button type="button" class="btn-cancel" onclick={fecharModal}>Cancelar</button>
-                        <button type="submit" class="btn-primary">Confirmar Autorização</button>
+                        <button
+                            type="button"
+                            class="btn-cancel"
+                            onclick={fecharModal}>Cancelar</button
+                        >
+                        <button type="submit" class="btn-primary"
+                            >Confirmar Autorização</button
+                        >
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 {/if}
@@ -122,7 +129,6 @@
 
     .autorizar-box p {
         padding: 12px 8px;
-        border-bottom: 1px solid #3d3f97;
     }
 
     .autorizar-box p:first-child {
@@ -156,8 +162,7 @@
         color: #3d3f97;
     }
 
-
-    input{
+    input {
         width: 100%;
         padding: 10px;
         border: 1px solid #ddd;
@@ -241,8 +246,6 @@
         color: #d00;
     }
 
-
-    
     h2 {
         color: #3d3f97;
         margin-bottom: 20px;
@@ -276,6 +279,4 @@
         max-height: 90vh;
         overflow-y: auto;
     }
-
 </style>
-

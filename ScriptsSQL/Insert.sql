@@ -17,6 +17,7 @@ drop procedure if exists insertProva;
 drop procedure if exists insertSugestao;
 drop procedure if exists insertVoto;
 
+delimiter $$
 create procedure insertDiscente(in UUID_discente varchar(36), in Nome varchar(50), in Email varchar(50), in RA int unsigned)
 begin
 	insert into pessoas values(UUID_discente, Nome, Email, 'Discente', null, null, null);
@@ -136,15 +137,14 @@ begin
 	call insertMembroRA(RA_discente, Cargo, Nome_chapa);
 end $$
 
-
-create procedure insertPauta(in UUID_pauta varchar(36), in Titulo varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
+create procedure insertPauta(in UUID_pauta varchar(36), in Titulo varchar(50), in pDescricao varchar(500), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa varchar(36);
     select UUID into UUID_pessoa from pessoas where pessoas.Nome = Nome_pessoa;
-    if Nome_pessoa is null then
-		insert into Pautas values(UUID_pauta, Titulo, Descricao, null);
+    if Nome_pessoa is null or Nome_pessoa = '' then
+		insert into Pautas values(UUID_pauta, Titulo, pDescricao, null);
 	else
-		insert into Pautas values(UUID_pauta, Titulo, Descricao, UUID_pessoa);
+		insert into Pautas values(UUID_pauta, Titulo, pDescricao, UUID_pessoa);
     end if;
 end $$
 
