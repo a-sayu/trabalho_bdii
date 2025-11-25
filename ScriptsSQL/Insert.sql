@@ -180,3 +180,18 @@ end $$
 
 delimiter ;
 
+delimiter $$
+
+create PROCEDURE updatePessoa(in p_uuid VARCHAR(36), in p_nome VARCHAR(255), in p_email VARCHAR(255), in p_vinculo VARCHAR(255))
+begin
+	update Pessoas set Nome = p_nome, Email = p_email, Vinculo_UNESP = p_vinculo where UUID = p_uuid;
+end $$
+
+drop procedure if exists updateEvento;
+
+delimiter $$
+create PROCEDURE updateEvento(in UUID_evento varchar(36))
+begin
+	update Eventos set Autorizado = true where UUID = UUID_evento;
+end $$
+delimiter ;
