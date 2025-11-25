@@ -228,7 +228,7 @@
         border-radius: 12px;
         font-size: 0.8rem;
         font-weight: 500;
-        transform: translateY(-57px) translateX(165px);
+        transform: translateY(-57px) translateX(300px);
     }
 
     .scrollable {

@@ -45,7 +45,7 @@
                             type="text"
                             name="nome"
                             bind:value={eventoEmEdicao.Nome}
-                            placeholder="Nome da Pessoa"
+                            placeholder="Nome do Evento"
                             required
                         />
                     </div>

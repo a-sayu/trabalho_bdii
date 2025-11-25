@@ -26,15 +26,15 @@
                         <p class="email">
                             {session.user.email ?? "exemplo@unesp.br"}
                         </p>
-                        <p class="ra">RA</p>
-                        <p class="cpf">CPF</p>
+                        <!-- <p class="ra">RA</p>
+                        <p class="cpf">CPF</p> -->
                     </div>
                 </div>
-                <div class="contact-details">
+                <!-- <div class="contact-details">
                     <p>Github</p>
                     <p>LinkedIn</p>
                     <p>Bio</p>
-                </div>
+                </div> -->
                 <button onclick={() => signOut()} class="sign-out-button"
                     >Desconectar</button
                 >
@@ -108,11 +108,11 @@
         margin-bottom: 10px;
     }
 
-    .contact-details p {
+    /* .contact-details p {
         margin: 0;
         padding: 5px 0;
         color: var(--text-dark);
-    }
+    } */
 
     .sign-out-button {
         background-color: var(--primary-dark-blue);
@@ -122,5 +122,6 @@
         border-radius: 8px;
         cursor: pointer;
         margin-top: 20px;
+        bottom: 0;
     }
 </style>
