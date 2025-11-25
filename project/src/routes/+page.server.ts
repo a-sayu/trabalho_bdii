@@ -42,7 +42,7 @@ export async function load() {
     try {
         // Call the stored procedure
         // Use 'CALL procedure_name(?, ?)' syntax for stored procedures
-        const eventosRaw = await query<Evento[]>("CALL selecteventosMes()");
+        const eventosRaw = await query<Evento[]>("CALL selectEventosMes()");
         
         const eventos = eventosRaw.map(evento => {
             return {

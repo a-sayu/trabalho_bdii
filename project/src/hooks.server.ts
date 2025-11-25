@@ -1,30 +1,86 @@
 import { SvelteKitAuth } from "@auth/sveltekit";
 import Google from "@auth/core/providers/google";
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, AUTH_SECRET } from "$env/static/private";
+import {
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    AUTH_SECRET,
+} from "$env/static/private";
+import { redirect, type Handle } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
 
-// NOTICE THE { handle } DESTRUCTURING BELOW
-export const { handle } = SvelteKitAuth({
-  providers: [
-    Google({ 
-      clientId: GOOGLE_CLIENT_ID, 
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code"
-        }
-      }
-    }),
-  ],
-  secret: AUTH_SECRET,
-  trustHost: true,
-  callbacks: {
-    async signIn({ profile }) {
-      if (profile?.email?.endsWith("@unesp.br")) {
-        return true;
-      }
-      return false; 
-    }
-  }
+import { 
+    ALLOWED_EMAILS, 
+    ADMIN_EMAILS, 
+    ADMIN_ROUTES, 
+    PROTECTED_ROUTES 
+} from "$lib/server/permissions";
+
+const { handle: authHandle } = SvelteKitAuth({
+    providers: [
+        Google({
+            clientId: GOOGLE_CLIENT_ID,
+            clientSecret: GOOGLE_CLIENT_SECRET,
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code",
+                },
+            },
+        }),
+    ],
+    secret: AUTH_SECRET,
+    trustHost: true,
+    callbacks: {
+        async signIn({ profile }) {
+            const email = profile?.email || "";
+            if (email.endsWith("@unesp.br") || ALLOWED_EMAILS.includes(email)) {
+                return true;
+            }
+            return false;
+        },
+        async jwt({ token, user }) {
+            if (user && user.email) {
+                token.role = ADMIN_EMAILS.includes(user.email) ? "admin" : user;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (session.user) {
+                session.user.role = token.role as string;
+            }
+            return session;
+        },
+    },
 });
+
+const authorizationHandle: Handle = async ({ event, resolve }) => {
+    const session = await event.locals.auth();
+    const pathname = event.url.pathname;
+
+    const isRouteAdmin = ADMIN_ROUTES.some((route) =>
+        pathname.startsWith(route)
+    );
+    const isRouteProtected = PROTECTED_ROUTES.some((route) =>
+        pathname.startsWith(route)
+    );
+
+    if (isRouteAdmin) {
+        if (!session) throw redirect(303, "/login");
+        if (session.user?.role !== "admin") throw redirect(303, "/");
+    }
+
+    if (isRouteProtected) {
+        if (!session) throw redirect(303, "/login");
+    }
+
+    if (pathname === "/login" && session) {
+        throw redirect(303, "/profile");
+    } else if (pathname === "/profile" && !session) {
+        throw redirect(303, "/login");
+    }
+
+    return resolve(event);
+};
+
+export const handle = sequence(authHandle, authorizationHandle);
