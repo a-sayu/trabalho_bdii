@@ -3,16 +3,6 @@ import { error, fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import { randomUUID } from "node:crypto";
 
-interface Pessoa {
-    UUID: string;
-    Nome: string;
-    Email: string;
-    Vinculo_UNESP: string;
-    GitHub?: string;
-    LinkedIn?: string;
-    Biografia?: string;
-}
-
 export const load: PageServerLoad = async () => {
     try {
         const resultadoProcedure = await query<any>("CALL selectPessoas()");

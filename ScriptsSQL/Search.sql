@@ -62,6 +62,14 @@ begin
 	select * from Pessoas;
 end $$
 
+create procedure if not exists selectPessoaByEmail(in Email_p varchar(50))
+begin
+	declare UUID_usuario varchar(36);
+    select UUID into UUID_usuario from pessoas where pessoas.Email = Email_p;
+	select RA from discentes where discentes.UUID_pessoa = UUID_usuario;
+	select * from Pessoas where pessoas.Email = Email_p;
+end $$
+
 create procedure selectRAPessoa(in Nome_usuario varchar(50))
 begin
 	declare UUID_usuario varchar(36);

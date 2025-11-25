@@ -1,6 +1,10 @@
 <script lang="ts">
-    import { signIn, signOut } from "@auth/sveltekit/client";
+    import { signOut } from "@auth/sveltekit/client";
     import { page } from "$app/state";
+    import type { Pessoa } from "$lib/types";
+
+    const { data } = $props();
+    let pessoa = $state((data.pessoa as Pessoa) || null);
 
     const session = $derived(page.data.session);
 </script>
@@ -16,25 +20,79 @@
                 <div class="user-info-row">
                     <div class="profile-icon">
                         <img
-                            src={session.user.image}
+                            src={session.user.image ||
+                                "https://ui-avatars.com/api/?name=" +
+                                    (pessoa?.Nome || session.user.name)}
                             alt="👤"
                             class="profile-img-content"
                         />
                     </div>
                     <div class="profile-details">
-                        <p class="name">{session.user.name ?? "Usuário"}</p>
-                        <p class="email">
-                            {session.user.email ?? "exemplo@unesp.br"}
+                        <p class="name">
+                            {pessoa?.Nome ?? session.user.name ?? "Usuário"}
                         </p>
-                        <!-- <p class="ra">RA</p>
-                        <p class="cpf">CPF</p> -->
+
+                        <p class="email">
+                            {pessoa?.Email ??
+                                session.user.email ??
+                                "email@unesp.br"}
+                        </p>
+
+                        {#if pessoa?.Vinculo_UNESP}
+                            <p class="ra">
+                                <strong>Vínculo:</strong>
+                                {pessoa.Vinculo_UNESP}
+                            </p>
+                        {:else}
+                            <p class="ra" style="opacity: 0.5;">
+                                Vínculo não informado
+                            </p>
+                        {/if}
                     </div>
                 </div>
-                <!-- <div class="contact-details">
-                    <p>Github</p>
-                    <p>LinkedIn</p>
-                    <p>Bio</p>
-                </div> -->
+                <div class="contact-details">
+                    {#if pessoa?.Github}
+                        <p>
+                            <strong>Github:</strong>
+                            <a
+                                href={pessoa.Github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                {pessoa.Github.replace(
+                                    "https://github.com/",
+                                    ""
+                                )}
+                            </a>
+                        </p>
+                    {:else}
+                        <p style="opacity: 0.5;">Github não cadastrado</p>
+                    {/if}
+
+                    {#if pessoa?.Linkedin}
+                        <p>
+                            <strong>LinkedIn:</strong>
+                            <a
+                                href={pessoa.Linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer">Ver Perfil</a
+                            >
+                        </p>
+                    {:else}
+                        <p style="opacity: 0.5;">LinkedIn não cadastrado</p>
+                    {/if}
+
+                    {#if pessoa?.Descricao}
+                        <div
+                            style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee;"
+                        >
+                            <p><strong>Bio:</strong></p>
+                            <p style="font-style: italic;">
+                                {pessoa.Descricao}
+                            </p>
+                        </div>
+                    {/if}
+                </div>
                 <button onclick={() => signOut()} class="sign-out-button"
                     >Desconectar</button
                 >
@@ -49,7 +107,6 @@
         --light-card-color: #fff;
         --text-dark: #646464;
     }
-
 
     /* ------------
         Profile
@@ -108,11 +165,11 @@
         margin-bottom: 10px;
     }
 
-    /* .contact-details p {
+    .contact-details p {
         margin: 0;
         padding: 5px 0;
         color: var(--text-dark);
-    } */
+    }
 
     .sign-out-button {
         background-color: var(--primary-dark-blue);
