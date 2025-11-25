@@ -11,18 +11,15 @@ select * from discentes;
 
 */
 
-call insertEvento(UUID(), 'A', NOW(), null);
-call insertEvento(UUID(), 'B', NOW(), null);
-call insertEvento(UUID(), 'C', NOW(), null);
+-- call insertDocente(UUID(), 'A', 'A@');
 
 -- call insertDisciplina(UUID(),'Mat','A');
 
 -- select UUID from pessoas;
 
--- SHOW DATABASES;
 
 -- set @Nome_professor = 'A';
 -- select UUID from pessoas where pessoas.Nome = @Nome_professor and pessoas.Vinculo_UNESP = 'Docente';
 
-select * from eventos;
+select * from disciplinas;
 

@@ -1,7 +1,7 @@
 delimiter $$
-create procedure insertDiscente(in UUID_discente varchar(36), in Nome varchar(50), in Email varchar(50), in RA varchar(36))
+create procedure insertDiscente(in UUID_discente varchar(36), in Nome varchar(50), in Email varchar(50), in RA int unsigned)
 begin
-	insert into pessoas values(UUID_discente, Nome, Email, 'Discente');
+	insert into pessoas values(UUID_discente, Nome, Email, 'Discente', null, null, null);
     insert into discentes values(RA,UUID_discente);
 end $$
 
@@ -40,13 +40,13 @@ end $$
 
 create procedure insertCursando(in Nome_discente varchar(50), in Nome_disciplina varchar(50))
 begin
-	declare RA int unsigned;
+	declare RA_discente int unsigned;
     declare UUID_pessoa varchar(36);
     declare UUID_disciplina varchar(36);
     select UUID into UUID_pessoa from pessoas where pessoas.Nome = Nome_discente;
-    select RA into RA from discentes where discentes.UUID = UUID_pessoa;
+    select RA into RA_discente from discentes where discentes.UUID = UUID_pessoa;
     select UUID into UUID_disciplina from disciplinas where disciplinas.Nome = Nome_disciplina;
-	insert into Cursando values(RA, UUID_disciplina);
+	insert into Cursando values(RA_discente, UUID_disciplina);
 end $$
 
 create procedure insertDisciplina(in UUID_disciplina varchar(36), in Nome_disciplina varchar(50), in Nome_professor varchar(50))
@@ -79,20 +79,20 @@ begin
 	insert into Inscritos values(UUID_pessoa, UUID_evento);
 end $$
 
-create procedure insertMembroNome(in Nome_discente varchar(50), in Cargo varchar(50), in Nome_chapa varchar(50))
-begin
-    declare RA int unsigned;
-    declare UUID_chapa varchar(36);
-    select RA into RA from discentes where discentes.Nome = Nome_discente;
-    select UUID into UUID_chapa from chapas where chapas.Nome = Nome_chapa;
-	insert into Membros values(RA, Cargo, UUID_chapa);
-end $$
-
 create procedure insertMembroRA(in RA int unsigned, in Cargo varchar(50), in Nome_chapa varchar(50))
 begin
     declare UUID_chapa varchar(36);
     select UUID into UUID_chapa from chapas where chapas.Nome = Nome_chapa;
 	insert into Membros values(RA, Cargo, UUID_chapa);
+end $$
+
+create procedure insertMembroNome(in Nome_discente varchar(50), in Cargo varchar(50), in Nome_chapa varchar(50))
+begin
+    declare RA_discente int unsigned;
+    declare UUID_discente varchar(36);
+    select UUID into UUID_discente from pessoas where Nome = Nome_discente;
+    select RA into RA_discente from discentes where UUID_pessoa = UUID_discente;
+	call insertMembroRA(RA_discente, Cargo, Nome_chapa);
 end $$
 
 create procedure insertPauta(in UUID_pauta varchar(36), in Nome varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))

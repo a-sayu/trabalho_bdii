@@ -55,5 +55,12 @@ create procedure selectSugestoes()
 begin
 	select * from Sugestoes;
 end $$
+
+create procedure selectInformacoesUsuario(in Nome_usuario varchar(50))
+begin
+	declare UUID_usuario varchar(36);
+    select UUID into UUID_usuario from pessoas where pessoas.Nome = Nome_usuario;
+	select RA from discentes where discentes.UUID_pessoa = UUID_usuario;
+end $$
 	
 delimiter ;

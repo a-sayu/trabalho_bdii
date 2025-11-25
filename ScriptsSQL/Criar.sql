@@ -84,8 +84,8 @@ create table Membros(
     Cargo varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     UUID_chapa varchar(36) not null,
 	primary key(RA),
-    constraint FK_RA_emmebros foreign key (RA) references Discentes(RA),
-    constraint FK_UUID_chapas_membros foreign key (UUID_chapa) references Chapas(UUID)
+    constraint FK_RA_membros foreign key (RA) references Discentes(RA),
+    constraint FK_UUID_chapa_membro foreign key (UUID_chapa) references Chapas(UUID)
 );
 
 create table Pautas(
