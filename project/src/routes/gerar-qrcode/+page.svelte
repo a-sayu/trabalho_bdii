@@ -1,3 +1,7 @@
+<script>
+    import QR from "@svelte-put/qr/svg/QR.svelte";
+</script>
+
 <svelte:head>
     <title>Gerar QR Code</title>
 </svelte:head>
@@ -5,7 +9,22 @@
 <main class="blue">
     <div class="qr-code-box">
         <p>Seu QR Code</p>
-        <div class="qr-code"></div>
+        <div class="qr-code">
+            <QR
+                data="123123123"
+                logo="src/lib/assets/favicon.svg"
+                logoRatio={107 / 128}
+                shape="square"
+                margin={4}
+            >
+                {#snippet svg({ attributes, innerHTML })}
+                    <svg {...attributes} class="**:fill-blue-500">
+                        <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+                        {@html innerHTML}
+                    </svg>
+                {/snippet}
+            </QR>
+        </div>
     </div>
 </main>
 

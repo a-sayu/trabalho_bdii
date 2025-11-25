@@ -155,8 +155,9 @@
         .profile-img-content,
         .menu-img {
             height: 35px;
-            width: auto;
+            width: 35px;
             object-fit: contain;
+            text-align: center;
             display: block;
         }
 
