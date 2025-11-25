@@ -1,6 +1,7 @@
 <script lang="ts">
+    import type { Evento } from "$lib/types";
     const { data } = $props();
-    const eventos = $state(data.eventos || []);
+    let eventos = $derived((data.eventos as Evento[]) || []);
 </script>
 
 <svelte:head>
@@ -11,9 +12,9 @@
     <div class="autorizar-box">
         <h2>Eventos Não Autorizados</h2>
         {#if eventos.length > 0}
-            {#each eventos as evento (evento.UUID_evento)}
+            {#each eventos as evento (evento.UUID)}
                 <div>
-                    <p>{evento.Nome_evento}</p>
+                    <p>{evento.Nome}</p>
                     <button>Ver Mais</button>
                 </div>
             {/each}

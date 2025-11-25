@@ -15,13 +15,13 @@ interface Evento {
 
 export const load: PageServerLoad = async () => {
     try {
-        const resultadoProcedure = await query<any>("CALL selectEventos()");
+        const resultadoProcedure = await query<any>("CALL selectEventosAprovar()");
 
         const eventosRaw = Array.isArray(resultadoProcedure[0])
             ? resultadoProcedure[0]
             : resultadoProcedure;
 
-        const eventosNaoFiltrados = eventosRaw.map((evento: any) => {
+        const eventos = eventosRaw.map((evento: any) => {
             return {
                 ...evento,
                 Data_local:
@@ -30,10 +30,6 @@ export const load: PageServerLoad = async () => {
                         : evento.Data_local,
             };
         });
-
-        const eventos = eventosNaoFiltrados.filter(
-            (ev: any) => ev && !ev.Autorizado
-        );
 
         return {
             eventos: eventos,
