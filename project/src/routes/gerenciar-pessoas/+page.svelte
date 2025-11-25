@@ -98,7 +98,7 @@
 <main class="split-layout">
     <div class="left">
         <div class="card">
-            <h3>Lista de Usuários</h3>
+            <h3>Lista de Pessoas Cadastradas</h3>
             {#if pessoas.length > 0}
                 <span class="badge">{pessoas.length} encontrados</span>
                 <div class="scrollable">
@@ -161,7 +161,7 @@
                     />
                 </div>
                 <div class="form-btn-side">
-                    <button type="submit" class="btn-primary">Enviar</button>
+                    <button type="submit" class="btn-primary">Adicionar</button>
                 </div>
             </form>
         </div>

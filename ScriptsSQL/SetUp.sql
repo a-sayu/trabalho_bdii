@@ -4,6 +4,7 @@ call insertDiscente(UUID(), 'Cristian Eidi Yoshimura', 'cristian.eidi@unesp.br',
 call insertDiscente(UUID(), 'Daniel Amorim Andrade de Pádua', 'daniel.aa.padua@unesp.br', 231255373);
 call insertDiscente(UUID(), 'Paulo Sergio Campos de Lima', 'paulo.sc.lima@unesp.br', 231254466);
 call insertDiscente(UUID(), 'Filipe Augusto Nava De Almeida Pupo', 'filipe.nava@unesp.br', 211255467);
+call insertDiscente(UUID(), 'Arthur Koichi Nakao', 'arthur.koichi@unesp.br', 231254661);
 
 call insertChapa(UUID(),'Grace Hopper');
 
