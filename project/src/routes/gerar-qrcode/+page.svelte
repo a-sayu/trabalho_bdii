@@ -1,5 +1,11 @@
-<script>
+<script lang="ts">
     import QR from "@svelte-put/qr/svg/QR.svelte";
+    import type { Pessoa } from '$lib/types.ts';
+
+    const { data } = $props();
+    // let pessoas = $state((data.pessoas as Pessoa[]) || []);
+    const userEmail = data.userEmail;
+
 </script>
 
 <svelte:head>
@@ -11,7 +17,7 @@
         <p>Seu QR Code</p>
         <div class="qr-code">
             <QR
-                data="123123123"
+                data={userEmail}
                 logo="src/lib/assets/favicon.svg"
                 logoRatio={107 / 128}
                 shape="square"
