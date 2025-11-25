@@ -28,8 +28,6 @@ create table Eventos(
     constraint FK_UUID_responsavel_evento foreign key (Responsavel) references Pessoas(UUID)
 );
 
-
-
 create table Inscritos(
 	UUID_pessoa varchar(36) not null,
     UUID_evento varchar(36) not null,
