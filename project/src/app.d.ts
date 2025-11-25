@@ -26,4 +26,10 @@ declare module "@auth/core/types" {
     }
 }
 
+declare module "@auth/core/jwt" {
+    interface JWT {
+        role?: string | any;
+    }
+}
+
 export {};

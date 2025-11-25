@@ -41,7 +41,7 @@ const { handle: authHandle } = SvelteKitAuth({
         },
         async jwt({ token, user }) {
             if (user && user.email) {
-                token.role = ADMIN_EMAILS.includes(user.email) ? "admin" : user;
+                token.role = ADMIN_EMAILS.includes(user.email) ? "admin" : "user";
             }
             return token;
         },

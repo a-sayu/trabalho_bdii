@@ -47,6 +47,12 @@
                     <a href="/adicionar-provas">Adicionar Provas</a>
                     <a href="/adicionar-eventos">Adicionar Eventos</a>
                     <a href="/sugestoes-e-pautas">Sugestões e Pautas</a>
+                    {#if session?.user?.role === "admin"}
+                        <a href="/autorizar-evento">Autorizar Eventos</a>
+                        <a href="/gerenciar-pessoas">Gerenciar Pessoas</a>
+                        <a href="/log-page">Logs do Sistema</a>
+                        <a href="/registrar-presenca">Registrar Presenças</a>
+                    {/if}
                 </div>
             </div>
         </div>
@@ -164,7 +170,7 @@
         .profile-img-content {
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid #fff
+            border: 2px solid #fff;
         }
 
         .menu-img {
