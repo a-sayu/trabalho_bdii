@@ -62,7 +62,7 @@ export const actions: Actions = {
         const spParams = [
             UUID_sugestao,
             titulo, // Nome_disciplina
-            descricao, // pessoa da prova
+            descricao, // descricao da prova
             pessoa,
         ];
 

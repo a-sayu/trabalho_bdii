@@ -101,7 +101,7 @@ create procedure insertPauta(in UUID_pauta varchar(36), in Titulo varchar(50), i
 begin
     declare UUID_pessoa varchar(36);
     select UUID into UUID_pessoa from pessoas where pessoas.Nome = Nome_pessoa;
-    if Nome_pessoa = null then
+    if Nome_pessoa is null then
 		insert into Pautas values(UUID_pauta, Titulo, Descricao, null);
 	else
 		insert into Pautas values(UUID_pauta, Titulo, Descricao, UUID_pessoa);

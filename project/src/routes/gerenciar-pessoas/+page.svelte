@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { fade } from "svelte/transition";
+
     let novaPessoa = $state({
         nome: "",
         email: "",
@@ -17,18 +19,21 @@
     <div class="left">
         <div class="card">
             <h3>Lista de Usuários</h3>
-            {#if pessoas.length > 0}
-                {#each pessoas as pessoa (pessoa.UUID)}
-                    <div>
-                        <p>{pessoa.Nome}</p>
-                        <button>Ver Mais</button>
+            <span class="badge">{pessoas.length} encontrados</span>
+            <div class="scrollable">
+                {#if pessoas.length > 0}
+                    {#each pessoas as pessoa (pessoa.UUID)}
+                        <div class="user-info" transition:fade>
+                            <p class="user-name">{pessoa.Nome}</p>
+                            <button class="btn-out">Ver Mais</button>
+                        </div>
+                    {/each}
+                {:else}
+                    <div class="empty-state">
+                        <p>Nenhuma pessoa para exibir.</p>
                     </div>
-                {/each}
-            {:else}
-                <div class="empty-state">
-                    <p>Nenhuma pessoa para exibir.</p>
-                </div>
-            {/if}
+                {/if}
+            </div>
         </div>
     </div>
     <div class="right">
@@ -114,7 +119,30 @@
         border-bottom: 2px solid #eee;
         padding-bottom: 10px;
     }
+    .badge {
+        position: absolute;
+        background: #eee;
+        color: #666;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        transform: translateY(-57px) translateX(165px);
+    }
 
+    .scrollable {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0;
+    }
+
+    .user-info {
+        display: flex;
+        justify-content: space-between; /* 2. Nome na esquerda, botão na direita */
+        align-items: center;
+        padding: 8px 16px;
+        border-bottom: 1px solid #e0e0e0;
+    }
 
     input {
         width: 100%;
@@ -147,6 +175,23 @@
     }
     .btn-primary:hover {
         background-color: #2c2e75;
+    }
+
+    .btn-out {
+        background: transparent;
+        border: 1px solid #3d3f97;
+        color: #3d3f97;
+        padding: 6px 16px;
+        border-radius: 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        right: 0;
+    }
+
+    .btn-out:hover {
+        background: #3d3f97;
+        color: white;
     }
 
     .form-row {
