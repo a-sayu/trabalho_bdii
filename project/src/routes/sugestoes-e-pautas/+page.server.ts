@@ -10,7 +10,7 @@ interface Pauta {
     descricao: string;
 }
 
-export async function load() {
+export const load: PageServerLoad = async () => {
     try {
         // Call the stored procedure
         // Use 'CALL procedure_name(?, ?)' syntax for stored procedures
@@ -21,7 +21,7 @@ export async function load() {
         let sugestos_e_pautas = [...sugestoes, ...pautas];
         console.log("Dados do Banco:", sugestos_e_pautas);
         sugestos_e_pautas.sort((a, b) => {
-             return (a.nome || '').localeCompare(b.nome || ''); 
+            return (a.nome || "").localeCompare(b.nome || "");
         });
 
         return {
@@ -30,10 +30,12 @@ export async function load() {
     } catch (e) {
         // Handle error appropriately
         console.error("Erro ao carregar sugestoes: ", e);
-        throw error(500, 'Não foi possível carregar os dados das sugestoes e pautas.');
+        throw error(
+            500,
+            "Não foi possível carregar os dados das sugestoes e pautas."
+        );
     }
-}
-
+};
 
 export const actions: Actions = {
     default: async ({ request }) => {
@@ -47,12 +49,12 @@ export const actions: Actions = {
         if (!titulo || !descricao) {
             // Log no terminal para indicar falha de validação do formulário
             console.warn(
-                `[PROVA] Tentativa de adição falhou: Campos obrigatórios ausentes.`
+                `[SUGESTAO] Tentativa de adição falhou: Campos obrigatórios ausentes.`
             );
 
             return fail(400, {
-                error: "Título, data, tipo, descricao são obrigatórios.",
-                titulo,
+                error: "Título, descricao, tipo e pessoa são obrigatórios.",
+                titulo, descricao, tipo, pessoa
             });
         }
 
@@ -89,7 +91,7 @@ export const actions: Actions = {
 
                 return fail(500, {
                     error: "Erro no servidor ao salvar o sugestao. Verifique o console do servidor para detalhes do DB.",
-                    titulo,
+                    titulo, descricao, tipo, pessoa
                 });
             }
         } else {
@@ -115,7 +117,7 @@ export const actions: Actions = {
 
                 return fail(500, {
                     error: "Erro no servidor ao salvar o pauta. Verifique o console do servidor para detalhes do DB.",
-                    titulo,
+                    titulo, descricao, tipo, pessoa
                 });
             }
         }

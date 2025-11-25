@@ -10,9 +10,10 @@ begin
 	insert into pessoas values(UUID_docente, Nome, Email, 'Docente');
 end $$
 
+drop procedure if exists insertPessoa;
 create procedure insertPessoa(in UUID_pessoa varchar(36), in Nome varchar(50), in Email varchar(50), in Vinculo varchar(50))
 begin
-	insert into pessoas values(UUID_pessoa, Nome, Email, Vinculo);
+	insert into pessoas (UUID, Nome, Email, Vinculo_UNESP) values(UUID_pessoa, Nome, Email, Vinculo);
 end $$
 
 create procedure insertCertificadoDiscente(in UUID_certificado varchar(36), in RA int unsigned, in Nome_evento varchar(50))

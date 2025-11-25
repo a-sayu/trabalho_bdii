@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { fade } from "svelte/transition";
+    import { fade, fly } from "svelte/transition";
+    import type { Pessoa } from "$lib/types";
 
     let novaPessoa = $state({
         nome: "",
@@ -7,38 +8,122 @@
         vinculo: "",
     });
 
+    let pessoaEmEdicao = $state<Pessoa | null>(null);
+
     const { data } = $props();
-    const pessoas = $state(data.pessoas || []);
+    let pessoas = $state((data.pessoas as Pessoa[]) || []);
+
+    function iniciarEdicao(pessoa: Pessoa) {
+        pessoaEmEdicao = { ...pessoa };
+    }
+    function cancelarEdicao() {
+        pessoaEmEdicao = null;
+    }
 </script>
 
 <svelte:head>
     <title>Gerenciar Pessoas</title>
 </svelte:head>
 
+{#if pessoaEmEdicao}
+    <div class="modal-overlay" transition:fade={{ duration: 200 }}>
+        <div class="modal-card" transition:fly={{ y: 50, duration: 300 }}>
+            <div class="header-edit">
+                <h3>Editar Pessoa</h3>
+                <button class="btn-close" onclick={cancelarEdicao}>✕</button>
+            </div>
+            <form method="POST" action="?/editar">
+                <input type="hidden" name="uuid" value={pessoaEmEdicao.UUID} />
+
+                <div class="form-row">
+                    <div class="form-group-label-inside flex-grow">
+                        <span class="label-floating">Nome</span>
+                        <input
+                            type="text"
+                            name="nome"
+                            bind:value={pessoaEmEdicao.Nome}
+                            placeholder="Nome da Pessoa"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group-label-inside flex-grow">
+                        <span class="label-floating">E-mail</span>
+                        <input
+                            type="text"
+                            name="email"
+                            bind:value={pessoaEmEdicao.Email}
+                            placeholder="E-mail da Pessoa"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group-label-inside flex-grow">
+                    <span class="label-floating">Vínculo com a Unesp</span>
+                    <input
+                        type="text"
+                        name="vinculo"
+                        bind:value={pessoaEmEdicao.Vinculo_UNESP}
+                        placeholder="Vínculo com a Unesp"
+                        required
+                    />
+                </div>
+
+                <div class="form-group-label-inside flex-grow">
+                    <span class="label-floating">RA</span>
+                    <input
+                        type="text"
+                        name="vinculo"
+                        bind:value={pessoaEmEdicao.Vinculo_UNESP}
+                        placeholder="Vínculo com a Unesp"
+                        required
+                    />
+                </div>
+
+                <div class="form-btn-side">
+                    <button
+                        type="button"
+                        class="btn-cancel"
+                        onclick={cancelarEdicao}>Cancelar</button
+                    >
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{/if}
+
 <main class="split-layout">
     <div class="left">
         <div class="card">
             <h3>Lista de Usuários</h3>
-            <span class="badge">{pessoas.length} encontrados</span>
-            <div class="scrollable">
-                {#if pessoas.length > 0}
+            {#if pessoas.length > 0}
+                <span class="badge">{pessoas.length} encontrados</span>
+                <div class="scrollable">
                     {#each pessoas as pessoa (pessoa.UUID)}
                         <div class="user-info" transition:fade>
                             <p class="user-name">{pessoa.Nome}</p>
-                            <button class="btn-out">Ver Mais</button>
+                            <button
+                                class="btn-out"
+                                onclick={() => iniciarEdicao(pessoa)}
+                                >Ver Mais</button
+                            >
                         </div>
                     {/each}
-                {:else}
-                    <div class="empty-state">
-                        <p>Nenhuma pessoa para exibir.</p>
-                    </div>
-                {/if}
-            </div>
+                </div>
+            {:else}
+                <div class="empty-state">
+                    <p>Nenhuma pessoa para exibir.</p>
+                </div>
+            {/if}
         </div>
     </div>
     <div class="right">
         <div class="form-box">
-            <form method="post">
+            <form method="POST">
                 <div class="form-row">
                     <div class="form-group-label-inside flex-grow">
                         <span class="label-floating">Nome</span>
@@ -113,6 +198,23 @@
         min-height: 400px;
     }
 
+    .header-edit {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+    }
+
+    .header-edit h3 {
+        margin: 0;
+        border: none;
+        padding: 0;
+        font-size: 1.5rem;
+        color: #3d3f97;
+    }
+
     h3 {
         color: #3d3f97;
         margin-bottom: 15px;
@@ -158,6 +260,7 @@
     .form-btn-side {
         display: flex;
         justify-content: flex-end;
+        gap: 10px;
         margin-top: 20px;
     }
 
@@ -173,8 +276,36 @@
         text-transform: capitalize;
         height: 50px;
     }
+
     .btn-primary:hover {
         background-color: #2c2e75;
+    }
+
+    .btn-cancel {
+        background-color: transparent;
+        color: #666;
+        border: 1px solid #ccc;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        height: 50px;
+    }
+    .btn-cancel:hover {
+        background-color: #f5f5f5;
+        color: #333;
+    }
+
+    .btn-close {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        cursor: pointer;
+        color: #999;
+    }
+
+    .btn-close:hover {
+        color: #d00;
     }
 
     .btn-out {
@@ -219,5 +350,30 @@
         padding: 0 5px;
         transform: translateY(-15px);
         z-index: 10;
+    }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        backdrop-filter: blur(4px);
+    }
+
+    .modal-card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        width: 90%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
     }
 </style>
