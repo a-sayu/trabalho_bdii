@@ -37,18 +37,13 @@ export const load: PageServerLoad = async () => {
 };
 
 export const actions: Actions = {
-    default: async ({ request }) => {
+    criar: async ({ request }) => {
         const data = await request.formData();
-
         const nome = data.get("nome") as string;
         const email = data.get("email") as string;
         const vinculo = data.get("vinculo") as string;
 
         if (!nome || !email || !vinculo) {
-            console.warn(
-                `[ADICAO] Tentativa de adição falhou: Campos obrigatórios ausentes.`
-            );
-
             return fail(400, {
                 error: "Nome, email e vinculo são obrigatórios.",
                 nome,
@@ -58,7 +53,6 @@ export const actions: Actions = {
         }
 
         const UUID_pessoa = randomUUID();
-
         const spParams = [UUID_pessoa, nome, email, vinculo];
 
         try {
@@ -72,16 +66,34 @@ export const actions: Actions = {
 
             return { success: true };
         } catch (e) {
-            console.error(
-                "Erro no DB ao adicionar a pessoa:",
-                JSON.stringify(e, null, 2)
-            );
-            return fail(500, {
-                error: "Erro no servidor ao salvar a pessoa. Verifique o console do servidor para detalhes no DB",
-                nome,
-                email,
-                vinculo,
-            });
+            console.error("Erro ao criar:", e);
+            return fail(500, { error: "Erro ao salvar." });
         }
     },
+
+    editar: async ({ request }) => {
+        const data = await request.formData();
+        
+        // Pegamos o UUID que está no input hidden
+        const uuid = data.get("uuid") as string;
+        const nome = data.get("nome") as string;
+        const email = data.get("email") as string;
+        const vinculo = data.get("vinculo") as string;
+
+        if (!uuid || !nome || !email || !vinculo) {
+            return fail(400, {
+                editarError: "Todos os campos são obrigatórios para edição.",
+                uuid, nome, email, vinculo
+            });
+        }
+
+        try {
+            await query("CALL updatePessoa(?,?,?,?)", [uuid, nome, email, vinculo]);
+            
+            return { successEdit: true };
+        } catch (e) {
+            console.error("Erro ao editar:", e);
+            return fail(500, { editarError: "Erro ao atualizar a pessoa." });
+        }
+    }
 };

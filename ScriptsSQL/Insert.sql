@@ -1,21 +1,27 @@
 delimiter $$
+drop procedure if exists insertDiscente;
 create procedure insertDiscente(in UUID_discente varchar(36), in Nome varchar(50), in Email varchar(50), in RA int unsigned)
 begin
 	insert into pessoas values(UUID_discente, Nome, Email, 'Discente', null, null, null);
     insert into discentes values(RA,UUID_discente);
 end $$
 
+ 
+drop procedure if exists insertDocente;
 create procedure insertDocente(in UUID_docente varchar(36), in Nome varchar(50), in Email varchar(50))
 begin
 	insert into pessoas values(UUID_docente, Nome, Email, 'Docente');
 end $$
 
+ 
 drop procedure if exists insertPessoa;
 create procedure insertPessoa(in UUID_pessoa varchar(36), in Nome varchar(50), in Email varchar(50), in Vinculo varchar(50))
 begin
 	insert into pessoas (UUID, Nome, Email, Vinculo_UNESP) values(UUID_pessoa, Nome, Email, Vinculo);
 end $$
 
+ 
+drop procedure if exists insertCertificadoDiscente;
 create procedure insertCertificadoDiscente(in UUID_certificado varchar(36), in RA int unsigned, in Nome_evento varchar(50))
 begin
 	declare UUID_pessoa varchar(36);
@@ -25,6 +31,8 @@ begin
 	insert into certificados values(UUID_certificado, UUID_pessoa, UUID_evento);
 end $$
 
+ 
+drop procedure if exists insertCertificadoPessoa;
 create procedure insertCertificadoPessoa(in UUID_certificado varchar(36), in Nome_pessoa varchar(50), in Nome_evento varchar(50))
 begin
 	declare UUID_pessoa varchar(36);
@@ -34,11 +42,15 @@ begin
 	insert into certificados values(UUID_certificado, UUID_pessoa, UUID_evento);
 end $$
 
+ 
+drop procedure if exists insertChapa;
 create procedure insertChapa(in UUID_chapa varchar(36), in Nome varchar(50))
 begin
 	insert into Chapas values(UUID_chapa, Nome);
 end $$
 
+ 
+drop procedure if exists insertCursando;
 create procedure insertCursando(in Nome_discente varchar(50), in Nome_disciplina varchar(50))
 begin
 	declare RA_discente int unsigned;
@@ -50,6 +62,8 @@ begin
 	insert into Cursando values(RA_discente, UUID_disciplina);
 end $$
 
+ 
+drop procedure if exists insertDisciplina;
 create procedure insertDisciplina(in UUID_disciplina varchar(36), in Nome_disciplina varchar(50), in Nome_professor varchar(50))
 begin
     declare UUID_professor varchar(36);
@@ -57,6 +71,8 @@ begin
     insert into Disciplinas values(UUID_disciplina, Nome_disciplina, UUID_professor);
 end $$
 
+ 
+drop procedure if exists insertEvento;
 create procedure insertEvento(in UUID_evento varchar(36), in Nome_evento varchar(50), in Data_local datetime, in Maximo int unsigned, in Responsavel varchar(50), in Descricao varchar(500))
 begin
 	declare UUID_pessoa varchar(36);
@@ -64,6 +80,8 @@ begin
     insert into Eventos values(UUID_evento, Nome_evento, Data_local, 0, false, Maximo, UUID_pessoa, Descricao);
 end $$
 
+ 
+drop procedure if exists insertInscritoNome;
 create procedure insertInscritoNome(in Nome_pessoa varchar(50), in Nome_evento varchar(50))
 begin
     declare UUID_pessoa varchar(36);
@@ -73,6 +91,7 @@ begin
     insert into Inscritos values(UUID_pessoa, UUID_evento);
 end $$
 
+drop procedure if exists insertInscritoRA;
 create procedure insertInscritoRA(in RA int unsigned, in Nome_evento varchar(50))
 begin
     declare UUID_pessoa varchar(36);
@@ -82,6 +101,7 @@ begin
 	insert into Inscritos values(UUID_pessoa, UUID_evento);
 end $$
 
+drop procedure if exists insertMembroRA;
 create procedure insertMembroRA(in RA int unsigned, in Cargo varchar(50), in Nome_chapa varchar(50))
 begin
     declare UUID_chapa varchar(36);
@@ -89,6 +109,7 @@ begin
 	insert into Membros values(RA, Cargo, UUID_chapa);
 end $$
 
+drop procedure if exists insertMembroNome;
 create procedure insertMembroNome(in Nome_discente varchar(50), in Cargo varchar(50), in Nome_chapa varchar(50))
 begin
     declare RA_discente int unsigned;
@@ -98,6 +119,7 @@ begin
 	call insertMembroRA(RA_discente, Cargo, Nome_chapa);
 end $$
 
+drop procedure if exists insertPauta;
 create procedure insertPauta(in UUID_pauta varchar(36), in Titulo varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa varchar(36);
@@ -109,6 +131,7 @@ begin
     end if;
 end $$
 
+drop procedure if exists insertProva;
 create procedure insertProva(in UUID_prova varchar(36), in Nome_disciplina varchar(50), in Data_local datetime, in Lugar varchar(50), in Tipo varchar(10), in Conteudo varchar(500))
 begin
     declare UUID_disciplina varchar(36);
@@ -116,6 +139,7 @@ begin
 	insert into Provas values(UUID_prova, UUID_disciplina, Data_local, Lugar, Tipo, Conteudo, false);
 end $$
 
+drop procedure if exists insertSugestao;
 create procedure insertSugestao(in UUID_sugestao varchar(36), in Titulo varchar(50), in Descricao varchar(500), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa varchar(36);
@@ -127,6 +151,7 @@ begin
     end if;
 end $$
 
+drop procedure if exists insertVoto;
 create procedure insertVoto(in Nome_pauta varchar(36), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa varchar(36);

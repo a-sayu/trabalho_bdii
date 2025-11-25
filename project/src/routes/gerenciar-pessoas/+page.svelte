@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { enhance } from "$app/forms";
     import { fade, fly } from "svelte/transition";
     import type { Pessoa } from "$lib/types";
+    import type { SubmitFunction } from "@sveltejs/kit";
 
     let novaPessoa = $state({
         nome: "",
@@ -19,6 +21,15 @@
     function cancelarEdicao() {
         pessoaEmEdicao = null;
     }
+
+    const submitEditar: SubmitFunction = () => {
+        return async ({ result, update }) => {
+            await update();
+            if (result.type === "success") {
+                cancelarEdicao();
+            }
+        };
+    };
 </script>
 
 <svelte:head>
@@ -32,9 +43,8 @@
                 <h3>Editar Pessoa</h3>
                 <button class="btn-close" onclick={cancelarEdicao}>✕</button>
             </div>
-            <form method="POST" action="?/editar">
+            <form method="POST" action="?/editar" use:enhance={submitEditar}>
                 <input type="hidden" name="uuid" value={pessoaEmEdicao.UUID} />
-
                 <div class="form-row">
                     <div class="form-group-label-inside flex-grow">
                         <span class="label-floating">Nome</span>
@@ -63,17 +73,6 @@
 
                 <div class="form-group-label-inside flex-grow">
                     <span class="label-floating">Vínculo com a Unesp</span>
-                    <input
-                        type="text"
-                        name="vinculo"
-                        bind:value={pessoaEmEdicao.Vinculo_UNESP}
-                        placeholder="Vínculo com a Unesp"
-                        required
-                    />
-                </div>
-
-                <div class="form-group-label-inside flex-grow">
-                    <span class="label-floating">RA</span>
                     <input
                         type="text"
                         name="vinculo"
@@ -123,7 +122,7 @@
     </div>
     <div class="right">
         <div class="form-box">
-            <form method="POST">
+            <form method="POST" action="?/criar" use:enhance>
                 <div class="form-row">
                     <div class="form-group-label-inside flex-grow">
                         <span class="label-floating">Nome</span>
@@ -262,6 +261,8 @@
         justify-content: flex-end;
         gap: 10px;
         margin-top: 20px;
+        flex-shrink: 0;
+        white-space: nowrap;
     }
 
     .btn-primary {
@@ -275,6 +276,8 @@
         font-size: 1rem;
         text-transform: capitalize;
         height: 50px;
+        flex-shrink: 0;
+        white-space: nowrap;
     }
 
     .btn-primary:hover {
@@ -318,6 +321,8 @@
         cursor: pointer;
         transition: all 0.2s;
         right: 0;
+        flex-shrink: 0;
+        white-space: nowrap;
     }
 
     .btn-out:hover {

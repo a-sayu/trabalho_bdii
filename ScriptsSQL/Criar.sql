@@ -8,7 +8,7 @@ create table Chapas(
 
 create table Pessoas(
 	UUID varchar(36) primary key,
-    Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
+    Nome varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     Email varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     Vinculo_UNESP varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     GitHub varchar(70),
@@ -18,7 +18,7 @@ create table Pessoas(
 
 create table Eventos(
 	UUID varchar(36) primary key,
-    Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
+    Nome varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     Data_local datetime not null,
     Duracao int unsigned,
     Autorizado boolean not null,
@@ -88,7 +88,7 @@ create table Membros(
 
 create table Pautas(
 	UUID varchar(36) primary key,
-    Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
+    Nome varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     Descricao varchar(500) not null COLLATE utf8mb4_0900_ai_ci,
     UUID_pessoa varchar(36),
     constraint FK_UUID_pessoa_pautas foreign key (UUID_pessoa) references Pessoas(UUID)
@@ -96,7 +96,7 @@ create table Pautas(
 
 create table Sugestoes(
 	UUID varchar(36) primary key,
-    Nome varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
+    Nome varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     Descricao varchar(500) not null COLLATE utf8mb4_0900_ai_ci,
     UUID_pessoa varchar(36),
     constraint FK_UUID_pessoa_sugestoes foreign key (UUID_pessoa) references Pessoas(UUID)

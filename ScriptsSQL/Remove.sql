@@ -115,6 +115,8 @@ begin
 end $$
 
 /* Remove Pauta: Remove pelo ID */
+delimiter $$
+
 create procedure removePauta(in UUID_pauta_input varchar(36))
 begin
     delete from Pautas where UUID = UUID_pauta_input;
@@ -145,4 +147,4 @@ begin
     delete from Votos where UUID_pessoa = UUID_pessoa_var and UUID_pauta = UUID_pauta_var;
 end $$
 
-delimiter ;
+delimiter ;;

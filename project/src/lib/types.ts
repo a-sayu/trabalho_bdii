@@ -7,3 +7,14 @@ export interface Pessoa {
   Linkedin: string;
   Descricao: string;
 }
+
+export interface Evento {
+    UUID: string;   
+    Nome: string;   
+    Data_local: Date;
+    Duracao: number;      
+    Autorizado?: boolean;
+    Maximo: number;       
+    Responsavel: string;
+    Descricao?: string;
+}
