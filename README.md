@@ -46,6 +46,9 @@ src/
 ------login/
 ---------+page.svelte
 ---------+page.server.ts
+------profile/
+---------+page.svelte
+---------+page.server.ts
 ------registrar-presenca/
 ---------+page.svelte
 ---------+page.server.ts
