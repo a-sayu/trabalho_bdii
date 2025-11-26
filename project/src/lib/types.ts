@@ -3,6 +3,7 @@ export interface Pessoa {
   Nome: string;
   Email: string;
   Vinculo_UNESP: string;
+  RA: number;
   Github: string;
   Linkedin: string;
   Descricao: string;

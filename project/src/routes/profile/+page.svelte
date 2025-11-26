@@ -1,12 +1,17 @@
 <script lang="ts">
     import { signOut } from "@auth/sveltekit/client";
+    import { goto } from "$app/navigation";
     import { page } from "$app/state";
     import type { Pessoa } from "$lib/types";
 
     const { data } = $props();
-    let pessoa = $state((data.pessoa as Pessoa) || null);
+    let pessoa = $derived((data.pessoa as Pessoa) || null);
 
     const session = $derived(page.data.session);
+
+    function handleEdit() {
+        goto("profile/editar"); 
+    }
 </script>
 
 <svelte:head>
@@ -38,6 +43,10 @@
                                 "email@unesp.br"}
                         </p>
 
+                        {#if pessoa?.RA}
+                            <p class="ra"><strong>RA:</strong> {pessoa.RA}</p>
+                        {/if}
+
                         {#if pessoa?.Vinculo_UNESP}
                             <p class="ra">
                                 <strong>Vínculo:</strong>
@@ -66,7 +75,7 @@
                             </a>
                         </p>
                     {:else}
-                        <p style="opacity: 0.5;">Github não cadastrado</p>
+                        <p style="opacity: 0.5;">Essa pessoa não tem GitHub cadastrado</p>
                     {/if}
 
                     {#if pessoa?.Linkedin}
@@ -79,7 +88,7 @@
                             >
                         </p>
                     {:else}
-                        <p style="opacity: 0.5;">LinkedIn não cadastrado</p>
+                        <p style="opacity: 0.5;">Essa pessoa não tem LinkedIn cadastrado</p>
                     {/if}
 
                     {#if pessoa?.Descricao}
@@ -91,11 +100,18 @@
                                 {pessoa.Descricao}
                             </p>
                         </div>
-                    {/if}
+                    {:else}
+                        <p style="opacity: 0.5;">Essa pessoa não tem Bio cadastrada</p>
+                        {/if}
                 </div>
-                <button onclick={() => signOut()} class="sign-out-button"
-                    >Desconectar</button
-                >
+                <div class="action-buttons">
+                    <button onclick={handleEdit} class="btn edit-btn">
+                        Editar Perfil
+                    </button>
+                    <button onclick={() => signOut()} class="btn sign-out-btn">
+                        Desconectar
+                    </button>
+                </div>
             </div>
         </div>
     {/if}
@@ -108,9 +124,20 @@
         --text-dark: #646464;
     }
 
-    /* ------------
-        Profile
-    ------------ */
+    .profile-img-content {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    a {
+        color: var(--primary-dark-blue);
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
     .profile-card {
         background-color: #fff;
         background-color: var(--light-card-color);
@@ -171,14 +198,36 @@
         color: var(--text-dark);
     }
 
-    .sign-out-button {
-        background-color: var(--primary-dark-blue);
-        color: white;
-        padding: 10px 20px;
-        border: none;
+    .action-buttons {
+        display: flex;
+        gap: 10px; /* Espaço entre os botões */
+        margin-top: 20px;
+    }
+
+    .btn {
+        flex: 1; /* Faz os botões ocuparem o mesmo tamanho */
+        padding: 10px 0;
         border-radius: 8px;
         cursor: pointer;
-        margin-top: 20px;
-        bottom: 0;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        border: 2px solid transparent;
+    }
+
+    .sign-out-btn {
+        background-color: var(--primary-dark-blue);
+        color: white;
+    }
+    .sign-out-btn:hover {
+        background-color: #1a1b4b;
+    }
+
+    .edit-btn {
+        background-color: transparent;
+        color: var(--primary-dark-blue);
+        border: 2px solid var(--primary-dark-blue);
+    }
+    .edit-btn:hover {
+        background-color: #f0f0f5;
     }
 </style>

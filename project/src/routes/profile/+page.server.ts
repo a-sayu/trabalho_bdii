@@ -15,18 +15,32 @@ export const load: PageServerLoad = async (event) => {
             "CALL selectPessoaByEmail(?)",
             [email_p]
         );
-        let pessoa: Pessoa | null = null;
+        const rawRA = resultadoProcedure[0];
+        const rawPessoa = resultadoProcedure[1];
+        if (!Array.isArray(rawPessoa) || rawPessoa.length === 0) {
+            return { pessoa: null };
+        }
 
-        if (Array.isArray(resultadoProcedure) && resultadoProcedure[0]?.length > 0) {
-            const linhas = resultadoProcedure[0];
-            if (Array.isArray(linhas)) {
-                pessoa = linhas[0] as Pessoa;
-            } else {
-                pessoa = resultadoProcedure[0] as Pessoa;
-            }
-        }
+        const rowPessoa = rawPessoa[0];
+        const rowRA = (Array.isArray(rawRA) && rawRA.length > 0) ? rawRA[0] : {};
+        const pessoa: Pessoa = {
+            // Dados vindos da tabela Pessoas (Segundo Select)
+            UUID: rowPessoa.UUID || rowPessoa.uuid || "",
+            Nome: rowPessoa.Nome || rowPessoa.nome || session.user?.name || "Usuário",
+            Email: rowPessoa.Email || rowPessoa.email || session.user?.email || "",
+            Vinculo_UNESP: rowPessoa.Vinculo_UNESP || rowPessoa.vinculo_unesp || "Não informado",
+            
+            // Dado vindo da tabela Discentes (Primeiro Select)
+            // Se não achar o RA, coloca 0 ou null (conforme sua preferência)
+            RA: rowRA.RA || rowRA.ra || 0,
+            
+            Github: rowPessoa.Github || rowPessoa.github || "",
+            Linkedin: rowPessoa.Linkedin || rowPessoa.linkedin || "",
+            Descricao: rowPessoa.Descricao || rowPessoa.descricao || ""
+        };
+
         return {
-            pessoa: pessoa
-        }
+            pessoa
+        };
     } catch (e) {}
 };

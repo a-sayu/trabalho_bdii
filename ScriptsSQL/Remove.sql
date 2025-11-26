@@ -1,7 +1,6 @@
 delimiter $$
 
-/* Remove Discente: Remove da tabela específica e da tabela genérica Pessoas */
-create procedure removeDiscente(in RA_input int unsigned)
+create procedure if not exists removeDiscente(in RA_input int unsigned)
 begin
     declare UUID_target varchar(36);
     
@@ -16,32 +15,31 @@ begin
 end $$
 
 /* Remove Docente: Remove a pessoa baseada no UUID */
-create procedure removeDocente(in UUID_docente varchar(36))
+create procedure if not exists removeDocente(in UUID_docente varchar(36))
 begin
     -- Docente é apenas uma pessoa com vínculo, deletamos a pessoa
     delete from pessoas where UUID = UUID_docente and Vinculo_UNESP = 'Docente';
 end $$
 
-drop procedure if exists removePessoa;
-create procedure removePessoa(in UUID_pessoa varchar(36))
+create procedure if not exists  removePessoa(in UUID_pessoa varchar(36))
 begin
     delete from pessoas where UUID = UUID_pessoa;
 end $$
 
 /* Remove Certificado: Remove pelo ID do certificado */
-create procedure removeCertificado(in UUID_certificado_input varchar(36))
+create procedure if not exists removeCertificado(in UUID_certificado_input varchar(36))
 begin
     delete from certificados where UUID = UUID_certificado_input;
 end $$
 
 /* Remove Chapa: Remove pelo ID da chapa */
-create procedure removeChapa(in UUID_chapa_input varchar(36))
+create procedure if not exists  removeChapa(in UUID_chapa_input varchar(36))
 begin
     delete from Chapas where UUID = UUID_chapa_input;
 end $$
 
 /* Remove Cursando: Busca IDs pelos nomes e remove a relação */
-create procedure removeCursando(in Nome_discente varchar(50), in Nome_disciplina varchar(50))
+create procedure if not exists  removeCursando(in Nome_discente varchar(50), in Nome_disciplina varchar(50))
 begin
     declare RA_discente int unsigned;
     declare UUID_pessoa_var varchar(36);
@@ -57,19 +55,19 @@ begin
 end $$
 
 /* Remove Disciplina: Remove pelo ID */
-create procedure removeDisciplina(in UUID_disciplina_input varchar(36))
+create procedure if not exists removeDisciplina(in UUID_disciplina_input varchar(36))
 begin
     delete from Disciplinas where UUID = UUID_disciplina_input;
 end $$
 
 /* Remove Evento: Remove pelo ID */
-create procedure removeEvento(in UUID_evento_input varchar(36))
+create procedure if not exists removeEvento(in UUID_evento_input varchar(36))
 begin
     delete from Eventos where UUID = UUID_evento_input;
 end $$
 
 /* Remove Inscrito por Nome: Busca IDs e remove */
-create procedure removeInscritoNome(in Nome_pessoa varchar(50), in Nome_evento varchar(50))
+create procedure if not exists removeInscritoNome(in Nome_pessoa varchar(50), in Nome_evento varchar(50))
 begin
     declare UUID_pessoa_var varchar(36);
     declare UUID_evento_var varchar(36);
@@ -81,7 +79,7 @@ begin
 end $$
 
 /* Remove Inscrito por RA: Busca IDs e remove */
-create procedure removeInscritoRA(in RA_input int unsigned, in Nome_evento varchar(50))
+create procedure if not exists removeInscritoRA(in RA_input int unsigned, in Nome_evento varchar(50))
 begin
     declare UUID_pessoa_var varchar(36);
     declare UUID_evento_var varchar(36);
@@ -93,7 +91,7 @@ begin
 end $$
 
 /* Remove Membro por RA */
-create procedure removeMembroRA(in RA_input int unsigned, in Nome_chapa varchar(50))
+create procedure if not exists removeMembroRA(in RA_input int unsigned, in Nome_chapa varchar(50))
 begin
     declare UUID_chapa_var varchar(36);
     
@@ -103,7 +101,7 @@ begin
 end $$
 
 /* Remove Membro por Nome: Busca RA e chama o procedure anterior */
-create procedure removeMembroNome(in Nome_discente varchar(50), in Nome_chapa varchar(50))
+create procedure if not exists removeMembroNome(in Nome_discente varchar(50), in Nome_chapa varchar(50))
 begin
     declare RA_discente int unsigned;
     declare UUID_discente_var varchar(36);
@@ -115,27 +113,26 @@ begin
 end $$
 
 /* Remove Pauta: Remove pelo ID */
-delimiter $$
 
-create procedure removePauta(in UUID_pauta_input varchar(36))
+create procedure if not exists removePauta(in UUID_pauta_input varchar(36))
 begin
     delete from Pautas where UUID = UUID_pauta_input;
 end $$
 
 /* Remove Prova: Remove pelo ID */
-create procedure removeProva(in UUID_prova_input varchar(36))
+create procedure if not exists removeProva(in UUID_prova_input varchar(36))
 begin
     delete from Provas where UUID = UUID_prova_input;
 end $$
 
 /* Remove Sugestao: Remove pelo ID */
-create procedure removeSugestao(in UUID_sugestao_input varchar(36))
+create procedure if not exists removeSugestao(in UUID_sugestao_input varchar(36))
 begin
     delete from Sugestoes where UUID = UUID_sugestao_input;
 end $$
 
 /* Remove Voto: Busca IDs e remove */
-create procedure removeVoto(in Nome_pauta varchar(50), in Nome_pessoa varchar(50))
+create procedure if not exists removeVoto(in Nome_pauta varchar(50), in Nome_pessoa varchar(50))
 begin
     declare UUID_pessoa_var varchar(36);
     declare UUID_pauta_var varchar(36);

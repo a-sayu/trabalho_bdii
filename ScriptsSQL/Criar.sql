@@ -9,7 +9,7 @@ create table Chapas(
 create table Pessoas(
 	UUID varchar(36) primary key,
     Nome varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
-    Email varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
+    Email varchar(50) not null unique COLLATE utf8mb4_0900_ai_ci,
     Vinculo_UNESP varchar(50) not null COLLATE utf8mb4_0900_ai_ci,
     GitHub varchar(70),
     LinkedIn varchar(70),
